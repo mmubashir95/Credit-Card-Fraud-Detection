@@ -9,6 +9,7 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 # ============================================================
@@ -180,6 +181,8 @@ print(df['Class'].value_counts(normalize=True) * 100)
 # - 25%, 50%, 75%
 # - max
 # Helps detect extreme values and scale differences
+# df["Amount_log"] = np.log1p(df["Amount"])
+# columns_to_describe = "Amount_log"
 print(df[num_cols].describe())
 
 
@@ -210,6 +213,30 @@ for col in num_cols:
     plt.show()
 
     # --------------------------------------------------------
+    # KDE Plot Using hue Parameter
+    # --------------------------------------------------------
+    # KDE shows smooth probability density curve
+    # 'hue' automatically separates Normal (0) and Fraud (1)
+    # Useful to visually compare overlap between classes
+    plt.figure()
+    sns.kdeplot(data=df, x=col, hue='Class')
+    plt.title(f"{col} Distribution by Class")
+    plt.show()
+
+    # --------------------------------------------------------
+    # Manual KDE Plot (Separate Class Filtering)
+    # --------------------------------------------------------
+    # Explicitly filter Normal transactions (Class = 0)
+    # Explicitly filter Fraud transactions (Class = 1)
+    # Gives more control if custom styling is needed
+    plt.figure()
+    sns.kdeplot(data=df[df['Class']==0], x=col, label='Normal')
+    sns.kdeplot(data=df[df['Class']==1], x=col, label='Fraud')
+    plt.legend()
+    plt.title(f"{col} Distribution by Class")
+    plt.show()
+
+    # --------------------------------------------------------
     # Skewness
     # --------------------------------------------------------
     # Measures symmetry of distribution
@@ -217,3 +244,37 @@ for col in num_cols:
     # Negative → Left skew
     # Near 0 → Symmetric
     print(f"{col} Skew:", df[col].skew())
+
+    # --------------------------------------------------------
+    # Mean Comparison by Class
+    # --------------------------------------------------------
+    # Calculates average value of feature for each class
+    # Helps identify direction of shift (which class has higher/lower mean)
+    print(f"{col} Mean:", df.groupby("Class")[col].mean())
+
+
+
+# plt.figure()
+# sns.boxplot(x=df[columns_to_describe])
+# plt.title(f"Boxplot of {columns_to_describe}")
+# plt.show()
+
+# plt.figure()
+# sns.histplot(df[columns_to_describe], kde=True)
+# plt.title(f"Distribution of {columns_to_describe}")
+# plt.show()
+
+# plt.figure()
+# sns.kdeplot(data=df, x=columns_to_describe, hue='Class')
+# plt.title(f"{columns_to_describe} Distribution by Class")
+# plt.show()
+
+# plt.figure()
+# sns.kdeplot(data=df[df['Class']==0], x=columns_to_describe, label='Normal')
+# sns.kdeplot(data=df[df['Class']==1], x=columns_to_describe, label='Fraud')
+# plt.legend()
+# plt.title(f"{columns_to_describe} Distribution by Class")
+# plt.show()
+
+# print(f"{columns_to_describe} Skew:", df[columns_to_describe].skew())
+# print(f"{columns_to_describe} Mean:", df.groupby("Class")[columns_to_describe].mean())
