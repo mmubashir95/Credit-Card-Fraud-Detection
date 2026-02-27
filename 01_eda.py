@@ -252,6 +252,55 @@ for col in num_cols:
     # Helps identify direction of shift (which class has higher/lower mean)
     print(f"{col} Mean:", df.groupby("Class")[col].mean())
 
+# ============================================================
+# 🚨 OUTLIER DETECTION USING IQR METHOD
+# ============================================================
+# This section identifies potential outliers in all numerical columns
+# using the Interquartile Range (IQR) method.
+#
+# IQR Method Logic:
+# 1. Compute Q1 (25th percentile)
+# 2. Compute Q3 (75th percentile)
+# 3. Calculate IQR = Q3 - Q1
+# 4. Define lower bound = Q1 - 1.5 * IQR
+# 5. Define upper bound = Q3 + 1.5 * IQR
+# 6. Any values outside these bounds are considered potential outliers
+#
+# NOTE:
+# This does NOT remove outliers.
+# It only measures their percentage for analysis purposes.
+# ============================================================
+
+for col in num_cols:
+
+    # Calculate 1st Quartile (25th percentile)
+    Q1 = df[col].quantile(0.25)
+
+    # Calculate 3rd Quartile (75th percentile)
+    Q3 = df[col].quantile(0.75)
+
+    # Compute Interquartile Range (IQR)
+    IQR = Q3 - Q1
+
+    # Define lower boundary for outlier detection
+    # Any value below this will be considered an outlier
+    lower = Q1 - 1.5 * IQR
+
+    # Define upper boundary for outlier detection
+    # Any value above this will be considered an outlier
+    upper = Q3 + 1.5 * IQR
+
+    # Identify rows where values fall outside the lower and upper bounds
+    # These rows are potential outliers
+    outliers = df[(df[col] < lower) | (df[col] > upper)]
+
+    # Calculate and print percentage of outliers in this column
+    # (number of outlier rows divided by total dataset size)
+    print(col, "Outlier %:", len(outliers)/len(df)*100)
+
+# ============================================================
+# ✅ END OF OUTLIER DETECTION SECTION
+# ============================================================
 
 
 # plt.figure()
