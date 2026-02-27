@@ -3,6 +3,8 @@
 # ============================================================
 
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 # ============================================================
@@ -152,3 +154,37 @@ print(df['Class'].value_counts())
 # This is more useful than raw counts when checking imbalance
 print("\nTarget Variable Distribution (Percentage):")
 print(df['Class'].value_counts(normalize=True) * 100)
+
+
+print(df[num_cols].describe())
+
+
+for col in num_cols:
+    # Boxplot helps visualize outliers using quartiles (IQR)
+    plt.figure()
+    sns.boxplot(x=df[col])
+    plt.title(f"Boxplot of {col}")
+    plt.show()
+
+    # Histogram + KDE curve to understand distribution shape
+    plt.figure()
+    sns.histplot(df[col], kde=True)
+    plt.title(f"Distribution of {col}")
+    plt.show()
+
+    # Skewness tells distribution symmetry:
+    # - positive skew => right tail
+    # - negative skew => left tail
+    print(f"{col} Skew:", df[col].skew())
+
+
+# for col in num_cols:
+#     # Histogram + KDE curve to understand distribution shape
+#     plt.figure()
+#     sns.histplot(df[col], kde=True)
+#     plt.title(f"Distribution of {col}")
+#     plt.show()
+
+# Target variable distribution (before converting to numeric)
+print("\nTarget Distribution (%):")
+print(df["Churn"].value_counts(normalize=True) * 100)
