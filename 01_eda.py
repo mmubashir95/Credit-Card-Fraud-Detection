@@ -131,7 +131,24 @@ print(df.isna().mean() * 100)
 print("="*60)
 
 
+# ============================================================
+# 🎯 TARGET VARIABLE ANALYSIS
+# ============================================================
+
+# ------------------------------------------------------------
+# 1️⃣ Target Distribution (Count)
+# ------------------------------------------------------------
+# value_counts() counts how many samples belong to each class
+# This helps us understand class balance / imbalance
 print("\nTarget Variable Distribution:")
 print(df['Class'].value_counts())
+
+
+# ------------------------------------------------------------
+# 2️⃣ Target Distribution (Percentage)
+# ------------------------------------------------------------
+# normalize=True converts counts into proportions
+# Multiply by 100 to convert proportions into percentage
+# This is more useful than raw counts when checking imbalance
 print("\nTarget Variable Distribution (Percentage):")
 print(df['Class'].value_counts(normalize=True) * 100)
