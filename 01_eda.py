@@ -191,66 +191,66 @@ print(df[num_cols].describe())
 # ============================================================
 
 # Loop through each numerical column
-for col in num_cols:
+# for col in num_cols:
 
-    # --------------------------------------------------------
-    # Boxplot
-    # --------------------------------------------------------
-    # Used to detect outliers via IQR method
-    plt.figure()
-    sns.boxplot(x=df[col])
-    plt.title(f"Boxplot of {col}")
-    plt.show()
+#     # --------------------------------------------------------
+#     # Boxplot
+#     # --------------------------------------------------------
+#     # Used to detect outliers via IQR method
+#     plt.figure()
+#     sns.boxplot(x=df[col])
+#     plt.title(f"Boxplot of {col}")
+#     plt.show()
 
-    # --------------------------------------------------------
-    # Histogram + KDE
-    # --------------------------------------------------------
-    # Histogram shows distribution
-    # KDE shows smooth probability density curve
-    plt.figure()
-    sns.histplot(df[col], kde=True)
-    plt.title(f"Distribution of {col}")
-    plt.show()
+#     # --------------------------------------------------------
+#     # Histogram + KDE
+#     # --------------------------------------------------------
+#     # Histogram shows distribution
+#     # KDE shows smooth probability density curve
+#     plt.figure()
+#     sns.histplot(df[col], kde=True)
+#     plt.title(f"Distribution of {col}")
+#     plt.show()
 
-    # --------------------------------------------------------
-    # KDE Plot Using hue Parameter
-    # --------------------------------------------------------
-    # KDE shows smooth probability density curve
-    # 'hue' automatically separates Normal (0) and Fraud (1)
-    # Useful to visually compare overlap between classes
-    plt.figure()
-    sns.kdeplot(data=df, x=col, hue='Class')
-    plt.title(f"{col} Distribution by Class")
-    plt.show()
+#     # --------------------------------------------------------
+#     # KDE Plot Using hue Parameter
+#     # --------------------------------------------------------
+#     # KDE shows smooth probability density curve
+#     # 'hue' automatically separates Normal (0) and Fraud (1)
+#     # Useful to visually compare overlap between classes
+#     plt.figure()
+#     sns.kdeplot(data=df, x=col, hue='Class')
+#     plt.title(f"{col} Distribution by Class")
+#     plt.show()
 
-    # --------------------------------------------------------
-    # Manual KDE Plot (Separate Class Filtering)
-    # --------------------------------------------------------
-    # Explicitly filter Normal transactions (Class = 0)
-    # Explicitly filter Fraud transactions (Class = 1)
-    # Gives more control if custom styling is needed
-    plt.figure()
-    sns.kdeplot(data=df[df['Class']==0], x=col, label='Normal')
-    sns.kdeplot(data=df[df['Class']==1], x=col, label='Fraud')
-    plt.legend()
-    plt.title(f"{col} Distribution by Class")
-    plt.show()
+#     # --------------------------------------------------------
+#     # Manual KDE Plot (Separate Class Filtering)
+#     # --------------------------------------------------------
+#     # Explicitly filter Normal transactions (Class = 0)
+#     # Explicitly filter Fraud transactions (Class = 1)
+#     # Gives more control if custom styling is needed
+#     plt.figure()
+#     sns.kdeplot(data=df[df['Class']==0], x=col, label='Normal')
+#     sns.kdeplot(data=df[df['Class']==1], x=col, label='Fraud')
+#     plt.legend()
+#     plt.title(f"{col} Distribution by Class")
+#     plt.show()
 
-    # --------------------------------------------------------
-    # Skewness
-    # --------------------------------------------------------
-    # Measures symmetry of distribution
-    # Positive → Right skew
-    # Negative → Left skew
-    # Near 0 → Symmetric
-    print(f"{col} Skew:", df[col].skew())
+#     # --------------------------------------------------------
+#     # Skewness
+#     # --------------------------------------------------------
+#     # Measures symmetry of distribution
+#     # Positive → Right skew
+#     # Negative → Left skew
+#     # Near 0 → Symmetric
+#     print(f"{col} Skew:", df[col].skew())
 
-    # --------------------------------------------------------
-    # Mean Comparison by Class
-    # --------------------------------------------------------
-    # Calculates average value of feature for each class
-    # Helps identify direction of shift (which class has higher/lower mean)
-    print(f"{col} Mean:", df.groupby("Class")[col].mean())
+#     # --------------------------------------------------------
+#     # Mean Comparison by Class
+#     # --------------------------------------------------------
+#     # Calculates average value of feature for each class
+#     # Helps identify direction of shift (which class has higher/lower mean)
+#     print(f"{col} Mean:", df.groupby("Class")[col].mean())
 
 # ============================================================
 # 🚨 OUTLIER DETECTION USING IQR METHOD
@@ -300,6 +300,55 @@ for col in num_cols:
 
 # ============================================================
 # ✅ END OF OUTLIER DETECTION SECTION
+# ============================================================
+
+
+# ============================================================
+# 📊 CORRELATION MATRIX ANALYSIS (Numerical vs Numerical)
+# ============================================================
+# This section computes and visualizes the correlation matrix
+# for all numerical features in the dataset.
+#
+# Purpose:
+# 1. Measure linear relationship between numerical variables
+# 2. Detect strong positive or negative correlations
+# 3. Identify potential multicollinearity issues
+# 4. Check correlation strength with the target variable
+#
+# Correlation Value Range:
+# +1   → Perfect positive linear relationship
+#  0   → No linear relationship
+# -1   → Perfect negative linear relationship
+#
+# What to Check:
+# - Any correlation > 0.8 or < -0.8? (Possible multicollinearity)
+# - Which features strongly correlate with target?
+# - Are some features redundant?
+#
+# IMPORTANT:
+# Correlation ≠ Causation
+# A strong correlation does NOT mean one variable causes the other.
+# ============================================================
+
+corr_matrix = df.corr(numeric_only=True)
+
+plt.figure(figsize=(14, 10))
+sns.heatmap(
+    corr_matrix,
+    cmap="coolwarm",
+    center=0,
+    square=True,
+    cbar_kws={"shrink": 0.8}
+)
+
+plt.title("Correlation Matrix", fontsize=16)
+plt.xticks(rotation=45)
+plt.yticks(rotation=0)
+plt.tight_layout()
+plt.show()
+
+# ============================================================
+# ✅ END OF CORRELATION ANALYSIS SECTION
 # ============================================================
 
 
