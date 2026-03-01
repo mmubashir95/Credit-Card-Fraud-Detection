@@ -191,66 +191,66 @@ print(df[num_cols].describe())
 # ============================================================
 
 # Loop through each numerical column
-# for col in num_cols:
+for col in num_cols:
 
-#     # --------------------------------------------------------
-#     # Boxplot
-#     # --------------------------------------------------------
-#     # Used to detect outliers via IQR method
-#     plt.figure()
-#     sns.boxplot(x=df[col])
-#     plt.title(f"Boxplot of {col}")
-#     plt.show()
+    # --------------------------------------------------------
+    # Boxplot
+    # --------------------------------------------------------
+    # Used to detect outliers via IQR method
+    plt.figure()
+    sns.boxplot(x=df[col])
+    plt.title(f"Boxplot of {col}")
+    plt.show()
 
-#     # --------------------------------------------------------
-#     # Histogram + KDE
-#     # --------------------------------------------------------
-#     # Histogram shows distribution
-#     # KDE shows smooth probability density curve
-#     plt.figure()
-#     sns.histplot(df[col], kde=True)
-#     plt.title(f"Distribution of {col}")
-#     plt.show()
+    # --------------------------------------------------------
+    # Histogram + KDE
+    # --------------------------------------------------------
+    # Histogram shows distribution
+    # KDE shows smooth probability density curve
+    plt.figure()
+    sns.histplot(df[col], kde=True)
+    plt.title(f"Distribution of {col}")
+    plt.show()
 
-#     # --------------------------------------------------------
-#     # KDE Plot Using hue Parameter
-#     # --------------------------------------------------------
-#     # KDE shows smooth probability density curve
-#     # 'hue' automatically separates Normal (0) and Fraud (1)
-#     # Useful to visually compare overlap between classes
-#     plt.figure()
-#     sns.kdeplot(data=df, x=col, hue='Class')
-#     plt.title(f"{col} Distribution by Class")
-#     plt.show()
+    # --------------------------------------------------------
+    # KDE Plot Using hue Parameter
+    # --------------------------------------------------------
+    # KDE shows smooth probability density curve
+    # 'hue' automatically separates Normal (0) and Fraud (1)
+    # Useful to visually compare overlap between classes
+    plt.figure()
+    sns.kdeplot(data=df, x=col, hue='Class')
+    plt.title(f"{col} Distribution by Class")
+    plt.show()
 
-#     # --------------------------------------------------------
-#     # Manual KDE Plot (Separate Class Filtering)
-#     # --------------------------------------------------------
-#     # Explicitly filter Normal transactions (Class = 0)
-#     # Explicitly filter Fraud transactions (Class = 1)
-#     # Gives more control if custom styling is needed
-#     plt.figure()
-#     sns.kdeplot(data=df[df['Class']==0], x=col, label='Normal')
-#     sns.kdeplot(data=df[df['Class']==1], x=col, label='Fraud')
-#     plt.legend()
-#     plt.title(f"{col} Distribution by Class")
-#     plt.show()
+    # --------------------------------------------------------
+    # Manual KDE Plot (Separate Class Filtering)
+    # --------------------------------------------------------
+    # Explicitly filter Normal transactions (Class = 0)
+    # Explicitly filter Fraud transactions (Class = 1)
+    # Gives more control if custom styling is needed
+    plt.figure()
+    sns.kdeplot(data=df[df['Class']==0], x=col, label='Normal')
+    sns.kdeplot(data=df[df['Class']==1], x=col, label='Fraud')
+    plt.legend()
+    plt.title(f"{col} Distribution by Class")
+    plt.show()
 
-#     # --------------------------------------------------------
-#     # Skewness
-#     # --------------------------------------------------------
-#     # Measures symmetry of distribution
-#     # Positive → Right skew
-#     # Negative → Left skew
-#     # Near 0 → Symmetric
-#     print(f"{col} Skew:", df[col].skew())
+    # --------------------------------------------------------
+    # Skewness
+    # --------------------------------------------------------
+    # Measures symmetry of distribution
+    # Positive → Right skew
+    # Negative → Left skew
+    # Near 0 → Symmetric
+    print(f"{col} Skew:", df[col].skew())
 
-#     # --------------------------------------------------------
-#     # Mean Comparison by Class
-#     # --------------------------------------------------------
-#     # Calculates average value of feature for each class
-#     # Helps identify direction of shift (which class has higher/lower mean)
-#     print(f"{col} Mean:", df.groupby("Class")[col].mean())
+    # --------------------------------------------------------
+    # Mean Comparison by Class
+    # --------------------------------------------------------
+    # Calculates average value of feature for each class
+    # Helps identify direction of shift (which class has higher/lower mean)
+    print(f"{col} Mean:", df.groupby("Class")[col].mean())
 
 # ============================================================
 # 🚨 OUTLIER DETECTION USING IQR METHOD
@@ -351,6 +351,79 @@ plt.show()
 # ✅ END OF CORRELATION ANALYSIS SECTION
 # ============================================================
 
+# --------------------------------------------------------
+# TARGET COLUMN NAME
+# --------------------------------------------------------
+# Specify your target column (change if needed)
+target_col = "Class"
+
+
+# --------------------------------------------------------
+# SELECT NUMERIC FEATURES (EXCLUDING TARGET)
+# --------------------------------------------------------
+# Select all numeric columns (int64, float64)
+num_cols = df.select_dtypes(include=["int64", "float64"]).columns
+
+# Remove target column from numeric feature list
+# We don't want to compare target with itself
+num_cols = num_cols.drop(target_col)
+
+
+# --------------------------------------------------------
+# BOX PLOT: EACH NUMERIC FEATURE VS TARGET
+# --------------------------------------------------------
+# Purpose:
+# - Compare distribution of each numeric feature
+#   between target classes
+# - Helps detect:
+#   • Separation power
+#   • Distribution shift
+#   • Outliers per class
+#   • Potentially strong predictors
+
+for col in num_cols:
+    plt.figure(figsize=(6, 4))
+    sns.boxplot(x=target_col, y=col, data=df)
+    plt.title(f"{col} vs {target_col}")
+    plt.tight_layout()
+    plt.show()
+
+
+# --------------------------------------------------------
+# CORRELATION WITH TARGET
+# --------------------------------------------------------
+# Compute correlation of all numeric features with target
+# abs() is used because:
+#   - We care about strength, not direction (+/-)
+#   - Both strong positive and strong negative are useful
+
+corr_with_target = df.corr(numeric_only=True)[target_col].abs().sort_values(ascending=False)
+
+
+# --------------------------------------------------------
+# SELECT TOP 5 MOST CORRELATED FEATURES
+# --------------------------------------------------------
+# index[0] is the target itself (correlation = 1)
+# So we skip it using [1:6]
+# This selects top 5 features most correlated with target
+
+top_features = corr_with_target.index[1:6]
+
+
+# --------------------------------------------------------
+# BOX PLOT: TOP 5 FEATURES VS TARGET
+# --------------------------------------------------------
+# Purpose:
+# - Focus only on strongest predictors
+# - Clear visual comparison
+# - Helps understand which features drive prediction most
+
+for col in top_features:
+    plt.figure(figsize=(6, 4))
+    sns.boxplot(x=target_col, y=col, data=df)
+    plt.title(f"{col} vs {target_col}")
+    plt.tight_layout()
+    plt.show()
 
 # plt.figure()
 # sns.boxplot(x=df[columns_to_describe])
