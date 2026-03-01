@@ -11,6 +11,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import FunctionTransformer, StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+
 
 # ============================================================
 # 1️⃣ LOAD DATASET
@@ -197,20 +204,20 @@ for col in num_cols:
     # Boxplot
     # --------------------------------------------------------
     # Used to detect outliers via IQR method
-    plt.figure()
-    sns.boxplot(x=df[col])
-    plt.title(f"Boxplot of {col}")
-    plt.show()
+    # plt.figure()
+    # sns.boxplot(x=df[col])
+    # plt.title(f"Boxplot of {col}")
+    # plt.show()
 
     # --------------------------------------------------------
     # Histogram + KDE
     # --------------------------------------------------------
     # Histogram shows distribution
     # KDE shows smooth probability density curve
-    plt.figure()
-    sns.histplot(df[col], kde=True)
-    plt.title(f"Distribution of {col}")
-    plt.show()
+    # plt.figure()
+    # sns.histplot(df[col], kde=True)
+    # plt.title(f"Distribution of {col}")
+    # plt.show()
 
     # --------------------------------------------------------
     # KDE Plot Using hue Parameter
@@ -218,10 +225,10 @@ for col in num_cols:
     # KDE shows smooth probability density curve
     # 'hue' automatically separates Normal (0) and Fraud (1)
     # Useful to visually compare overlap between classes
-    plt.figure()
-    sns.kdeplot(data=df, x=col, hue='Class')
-    plt.title(f"{col} Distribution by Class")
-    plt.show()
+    # plt.figure()
+    # sns.kdeplot(data=df, x=col, hue='Class')
+    # plt.title(f"{col} Distribution by Class")
+    # plt.show()
 
     # --------------------------------------------------------
     # Manual KDE Plot (Separate Class Filtering)
@@ -229,12 +236,12 @@ for col in num_cols:
     # Explicitly filter Normal transactions (Class = 0)
     # Explicitly filter Fraud transactions (Class = 1)
     # Gives more control if custom styling is needed
-    plt.figure()
-    sns.kdeplot(data=df[df['Class']==0], x=col, label='Normal')
-    sns.kdeplot(data=df[df['Class']==1], x=col, label='Fraud')
-    plt.legend()
-    plt.title(f"{col} Distribution by Class")
-    plt.show()
+    # plt.figure()
+    # sns.kdeplot(data=df[df['Class']==0], x=col, label='Normal')
+    # sns.kdeplot(data=df[df['Class']==1], x=col, label='Fraud')
+    # plt.legend()
+    # plt.title(f"{col} Distribution by Class")
+    # plt.show()
 
     # --------------------------------------------------------
     # Skewness
@@ -381,12 +388,12 @@ num_cols = num_cols.drop(target_col)
 #   • Outliers per class
 #   • Potentially strong predictors
 
-for col in num_cols:
-    plt.figure(figsize=(6, 4))
-    sns.boxplot(x=target_col, y=col, data=df)
-    plt.title(f"{col} vs {target_col}")
-    plt.tight_layout()
-    plt.show()
+# for col in num_cols:
+#     plt.figure(figsize=(6, 4))
+#     sns.boxplot(x=target_col, y=col, data=df)
+#     plt.title(f"{col} vs {target_col}")
+#     plt.tight_layout()
+#     plt.show()
 
 
 # --------------------------------------------------------
@@ -418,12 +425,106 @@ top_features = corr_with_target.index[1:6]
 # - Clear visual comparison
 # - Helps understand which features drive prediction most
 
-for col in top_features:
-    plt.figure(figsize=(6, 4))
-    sns.boxplot(x=target_col, y=col, data=df)
-    plt.title(f"{col} vs {target_col}")
-    plt.tight_layout()
-    plt.show()
+# for col in top_features:
+#     plt.figure(figsize=(6, 4))
+#     sns.boxplot(x=target_col, y=col, data=df)
+#     plt.title(f"{col} vs {target_col}")
+#     plt.tight_layout()
+#     plt.show()
+
+
+# for col in num_cols:
+#     print("\n" + "="*60)
+#     print(f"FRAUD DISTRIBUTION FOR: {col.upper()} (Quantile Binned)")
+#     print("="*60)
+    
+#     # Create 10 quantile bins
+#     df[f"{col}_bin"] = pd.qcut(df[col], q=10, duplicates="drop")
+    
+#     fraud_table = pd.crosstab(
+#         df[f"{col}_bin"], 
+#         df["Class"], 
+#         normalize="index"
+#     ) * 100
+    
+#     print(fraud_table.round(2))
+#     print("="*60)
+
+
+# --------------------------------------------------------
+# 2) Split X / y
+# --------------------------------------------------------
+target_col = "Class"
+X = df.drop(columns=[target_col])
+y = df[target_col]
+
+# Stratified split is IMPORTANT for imbalanced datasets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
+)
+
+# --------------------------------------------------------
+# 3) Preprocessing
+#    - Log transform Amount (because skew is huge)
+#    - Scale all numeric features
+# --------------------------------------------------------
+# Amount column transformer: log1p then scale
+amount_pipe = Pipeline([
+    ("log", FunctionTransformer(np.log1p, feature_names_out="one-to-one")),
+    ("scaler", StandardScaler())
+])
+
+# Other numeric columns (everything except Amount)
+numeric_cols = X.columns.tolist()
+other_numeric_cols = [c for c in numeric_cols if c != "Amount"]
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("amount", amount_pipe, ["Amount"]),
+        ("num", StandardScaler(), other_numeric_cols),
+    ],
+    remainder="drop"
+)
+
+# --------------------------------------------------------
+# 4) Model Pipeline
+# --------------------------------------------------------
+# class_weight='balanced' helps with imbalanced target
+model = LogisticRegression(max_iter=2000, class_weight="balanced")
+
+pipe = Pipeline([
+    ("prep", preprocessor),
+    ("model", model)
+])
+
+# --------------------------------------------------------
+# 5) Train
+# --------------------------------------------------------
+pipe.fit(X_train, y_train)
+
+# --------------------------------------------------------
+# 6) Predict + Evaluate
+# --------------------------------------------------------
+y_pred = pipe.predict(X_test)
+y_prob = pipe.predict_proba(X_test)[:, 1]
+
+print("\n==============================")
+print("Classification Report")
+print("==============================")
+print(classification_report(y_test, y_pred))
+
+print("\n==============================")
+print("Confusion Matrix")
+print("==============================")
+print(confusion_matrix(y_test, y_pred))
+
+print("\n==============================")
+print("ROC-AUC")
+print("==============================")
+print("ROC-AUC:", roc_auc_score(y_test, y_prob))
 
 # plt.figure()
 # sns.boxplot(x=df[columns_to_describe])
