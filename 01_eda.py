@@ -18,7 +18,12 @@ from sklearn.preprocessing import FunctionTransformer, StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 from sklearn.metrics import precision_recall_curve, classification_report, confusion_matrix
-
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, HistGradientBoostingClassifier
+from sklearn.metrics import (
+    classification_report, confusion_matrix,
+    precision_recall_curve, average_precision_score,
+    roc_auc_score, f1_score, precision_score, recall_score
+)
 
 
 # ============================================================
@@ -390,12 +395,12 @@ num_cols = num_cols.drop(target_col)
 #   • Outliers per class
 #   • Potentially strong predictors
 
-for col in num_cols:
-    plt.figure(figsize=(6, 4))
-    sns.boxplot(x=target_col, y=col, data=df)
-    plt.title(f"{col} vs {target_col}")
-    plt.tight_layout()
-    plt.show()
+# for col in num_cols:
+#     plt.figure(figsize=(6, 4))
+#     sns.boxplot(x=target_col, y=col, data=df)
+#     plt.title(f"{col} vs {target_col}")
+#     plt.tight_layout()
+#     plt.show()
 
 
 # --------------------------------------------------------
@@ -435,22 +440,22 @@ for col in top_features:
     plt.show()
 
 
-for col in num_cols:
-    print("\n" + "="*60)
-    print(f"FRAUD DISTRIBUTION FOR: {col.upper()} (Quantile Binned)")
-    print("="*60)
+# for col in num_cols:
+#     print("\n" + "="*60)
+#     print(f"FRAUD DISTRIBUTION FOR: {col.upper()} (Quantile Binned)")
+#     print("="*60)
     
-    # Create 10 quantile bins
-    df[f"{col}_bin"] = pd.qcut(df[col], q=10, duplicates="drop")
+#     # Create 10 quantile bins
+#     df[f"{col}_bin"] = pd.qcut(df[col], q=10, duplicates="drop")
     
-    fraud_table = pd.crosstab(
-        df[f"{col}_bin"], 
-        df["Class"], 
-        normalize="index"
-    ) * 100
+#     fraud_table = pd.crosstab(
+#         df[f"{col}_bin"], 
+#         df["Class"], 
+#         normalize="index"
+#     ) * 100
     
-    print(fraud_table.round(2))
-    print("="*60)
+#     print(fraud_table.round(2))
+#     print("="*60)
 
 
 # --------------------------------------------------------
@@ -645,3 +650,138 @@ plt.show()
 
 # print(f"{columns_to_describe} Skew:", df[columns_to_describe].skew())
 # print(f"{columns_to_describe} Mean:", df.groupby("Class")[columns_to_describe].mean())
+
+# ------------------------------------------------------------
+# 1) Helper: pick best threshold by brute-force (safe + correct)
+# ------------------------------------------------------------
+def best_threshold_by_f1(y_true, y_prob, n_steps=200):
+    thresholds = np.linspace(0.0, 1.0, n_steps)
+
+    best = {
+        "threshold": 0.5,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+    }
+
+    for t in thresholds:
+        y_pred = (y_prob >= t).astype(int)
+        p = precision_score(y_true, y_pred, zero_division=0)
+        r = recall_score(y_true, y_pred, zero_division=0)
+        f1 = f1_score(y_true, y_pred, zero_division=0)
+
+        if f1 > best["f1"]:
+            best.update({"threshold": t, "precision": p, "recall": r, "f1": f1})
+
+    return best
+
+
+# ------------------------------------------------------------
+# 2) Evaluate one model
+# ------------------------------------------------------------
+def evaluate_model(name, model, X_train, X_test, y_train, y_test):
+    model.fit(X_train, y_train)
+
+    # IMPORTANT: use probabilities for PR curve
+    y_prob = model.predict_proba(X_test)[:, 1]
+
+    pr_auc = average_precision_score(y_test, y_prob)
+    roc_auc = roc_auc_score(y_test, y_prob)
+
+    best = best_threshold_by_f1(y_test, y_prob, n_steps=500)
+    t = best["threshold"]
+    y_pred_best = (y_prob >= t).astype(int)
+
+    print("\n" + "="*70)
+    print(f"MODEL: {name}")
+    print("="*70)
+    print(f"PR-AUC (Average Precision): {pr_auc:.6f}")
+    print(f"ROC-AUC: {roc_auc:.6f}")
+    print("-"*70)
+    print("✅ BEST THRESHOLD (MAX F1 for fraud=1)")
+    print(f"Threshold : {best['threshold']:.4f}")
+    print(f"Precision : {best['precision']:.4f}")
+    print(f"Recall    : {best['recall']:.4f}")
+    print(f"F1        : {best['f1']:.4f}")
+    print("-"*70)
+
+    print("\nClassification Report @ Best Threshold:")
+    print(classification_report(y_test, y_pred_best, digits=4))
+
+    print("Confusion Matrix @ Best Threshold:")
+    print(confusion_matrix(y_test, y_pred_best))
+
+    return {
+        "model": name,
+        "pr_auc": pr_auc,
+        "roc_auc": roc_auc,
+        "best_threshold": best["threshold"],
+        "best_precision": best["precision"],
+        "best_recall": best["recall"],
+        "best_f1": best["f1"],
+    }
+
+# ------------------------------------------------------------
+# 3) Load your data (edit this part to match your file)
+# ------------------------------------------------------------
+# Example assumes you already have df with target column "Class"
+# df = pd.read_csv("data/creditcard.csv")
+
+# X = df.drop(columns=["Class"])
+# y = df["Class"]
+
+# Split
+# Use stratify=y for fraud imbalance
+# X_train, X_test, y_train, y_test = train_test_split(
+#     X, y, test_size=0.2, random_state=42, stratify=y
+# )
+
+# ------------------------------------------------------------
+# 4) Define models
+# ------------------------------------------------------------
+models = {
+    # "LogReg (scaled, balanced)": Pipeline([
+    #     ("scaler", StandardScaler()),
+    #     ("clf", LogisticRegression(max_iter=5000, class_weight="balanced", n_jobs=None))
+    # ]),
+     "LogReg (scaled, balanced)": Pipeline([
+        ("prep", preprocessor),
+        ("model", model)
+    ]),
+    "RandomForest (balanced)": RandomForestClassifier(
+        n_estimators=400,
+        class_weight="balanced",
+        random_state=42,
+        n_jobs=-1
+    ),
+    "GradientBoosting": GradientBoostingClassifier(random_state=42),
+    "HistGradientBoosting": HistGradientBoostingClassifier(random_state=42),
+}
+
+# ------------------------------------------------------------
+# 5) Run comparison
+# ------------------------------------------------------------
+def run_all(models, X_train, X_test, y_train, y_test):
+    results = []
+    for name, model in models.items():
+        results.append(evaluate_model(name, model, X_train, X_test, y_train, y_test))
+
+    results_df = pd.DataFrame(results).sort_values("pr_auc", ascending=False)
+    print("\n" + "="*70)
+    print("🏁 FINAL COMPARISON (sorted by PR-AUC)")
+    print("="*70)
+    print(results_df.to_string(index=False))
+    return results_df
+
+# After you load/split your data, run:
+results_df = run_all(models, X_train, X_test, y_train, y_test)
+print("\n" + "="*70)
+print("🏁 FINAL COMPARISON (sorted by PR-AUC)")
+print("="*70)
+print(results_df.to_string(index=False))
+print("\n" + "="*70)
+print("✅ BEST MODEL:")
+print(results_df.iloc[0])
+print("="*70)   
+print("\n" + "="*70)
+print("✅ BEST THRESHOLD FOR BEST MODEL:")
