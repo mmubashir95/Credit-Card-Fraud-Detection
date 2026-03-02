@@ -17,6 +17,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import FunctionTransformer, StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+from sklearn.metrics import precision_recall_curve, classification_report, confusion_matrix
+
 
 
 # ============================================================
@@ -204,20 +206,20 @@ for col in num_cols:
     # Boxplot
     # --------------------------------------------------------
     # Used to detect outliers via IQR method
-    # plt.figure()
-    # sns.boxplot(x=df[col])
-    # plt.title(f"Boxplot of {col}")
-    # plt.show()
+    plt.figure()
+    sns.boxplot(x=df[col])
+    plt.title(f"Boxplot of {col}")
+    plt.show()
 
     # --------------------------------------------------------
     # Histogram + KDE
     # --------------------------------------------------------
     # Histogram shows distribution
     # KDE shows smooth probability density curve
-    # plt.figure()
-    # sns.histplot(df[col], kde=True)
-    # plt.title(f"Distribution of {col}")
-    # plt.show()
+    plt.figure()
+    sns.histplot(df[col], kde=True)
+    plt.title(f"Distribution of {col}")
+    plt.show()
 
     # --------------------------------------------------------
     # KDE Plot Using hue Parameter
@@ -225,10 +227,10 @@ for col in num_cols:
     # KDE shows smooth probability density curve
     # 'hue' automatically separates Normal (0) and Fraud (1)
     # Useful to visually compare overlap between classes
-    # plt.figure()
-    # sns.kdeplot(data=df, x=col, hue='Class')
-    # plt.title(f"{col} Distribution by Class")
-    # plt.show()
+    plt.figure()
+    sns.kdeplot(data=df, x=col, hue='Class')
+    plt.title(f"{col} Distribution by Class")
+    plt.show()
 
     # --------------------------------------------------------
     # Manual KDE Plot (Separate Class Filtering)
@@ -236,12 +238,12 @@ for col in num_cols:
     # Explicitly filter Normal transactions (Class = 0)
     # Explicitly filter Fraud transactions (Class = 1)
     # Gives more control if custom styling is needed
-    # plt.figure()
-    # sns.kdeplot(data=df[df['Class']==0], x=col, label='Normal')
-    # sns.kdeplot(data=df[df['Class']==1], x=col, label='Fraud')
-    # plt.legend()
-    # plt.title(f"{col} Distribution by Class")
-    # plt.show()
+    plt.figure()
+    sns.kdeplot(data=df[df['Class']==0], x=col, label='Normal')
+    sns.kdeplot(data=df[df['Class']==1], x=col, label='Fraud')
+    plt.legend()
+    plt.title(f"{col} Distribution by Class")
+    plt.show()
 
     # --------------------------------------------------------
     # Skewness
@@ -388,12 +390,12 @@ num_cols = num_cols.drop(target_col)
 #   • Outliers per class
 #   • Potentially strong predictors
 
-# for col in num_cols:
-#     plt.figure(figsize=(6, 4))
-#     sns.boxplot(x=target_col, y=col, data=df)
-#     plt.title(f"{col} vs {target_col}")
-#     plt.tight_layout()
-#     plt.show()
+for col in num_cols:
+    plt.figure(figsize=(6, 4))
+    sns.boxplot(x=target_col, y=col, data=df)
+    plt.title(f"{col} vs {target_col}")
+    plt.tight_layout()
+    plt.show()
 
 
 # --------------------------------------------------------
@@ -425,30 +427,30 @@ top_features = corr_with_target.index[1:6]
 # - Clear visual comparison
 # - Helps understand which features drive prediction most
 
-# for col in top_features:
-#     plt.figure(figsize=(6, 4))
-#     sns.boxplot(x=target_col, y=col, data=df)
-#     plt.title(f"{col} vs {target_col}")
-#     plt.tight_layout()
-#     plt.show()
+for col in top_features:
+    plt.figure(figsize=(6, 4))
+    sns.boxplot(x=target_col, y=col, data=df)
+    plt.title(f"{col} vs {target_col}")
+    plt.tight_layout()
+    plt.show()
 
 
-# for col in num_cols:
-#     print("\n" + "="*60)
-#     print(f"FRAUD DISTRIBUTION FOR: {col.upper()} (Quantile Binned)")
-#     print("="*60)
+for col in num_cols:
+    print("\n" + "="*60)
+    print(f"FRAUD DISTRIBUTION FOR: {col.upper()} (Quantile Binned)")
+    print("="*60)
     
-#     # Create 10 quantile bins
-#     df[f"{col}_bin"] = pd.qcut(df[col], q=10, duplicates="drop")
+    # Create 10 quantile bins
+    df[f"{col}_bin"] = pd.qcut(df[col], q=10, duplicates="drop")
     
-#     fraud_table = pd.crosstab(
-#         df[f"{col}_bin"], 
-#         df["Class"], 
-#         normalize="index"
-#     ) * 100
+    fraud_table = pd.crosstab(
+        df[f"{col}_bin"], 
+        df["Class"], 
+        normalize="index"
+    ) * 100
     
-#     print(fraud_table.round(2))
-#     print("="*60)
+    print(fraud_table.round(2))
+    print("="*60)
 
 
 # --------------------------------------------------------
@@ -525,6 +527,99 @@ print("\n==============================")
 print("ROC-AUC")
 print("==============================")
 print("ROC-AUC:", roc_auc_score(y_test, y_prob))
+
+# --------------------------------------------------------
+# 7) Tune Decision Threshold (VERY IMPORTANT for Imbalanced Data)
+# --------------------------------------------------------
+# Default classification uses threshold = 0.5.
+# For fraud detection (highly imbalanced), threshold tuning is critical:
+# - Higher threshold  -> fewer fraud alerts -> Precision increases, Recall decreases
+# - Lower threshold   -> more fraud alerts  -> Recall increases, Precision decreases
+#
+# We already computed:
+#   y_prob = pipe.predict_proba(X_test)[:, 1]
+# So here we test multiple thresholds and print the report for each.
+
+thresholds = np.arange(0.10, 0.99, 0.05)
+
+for t in thresholds:
+    y_pred_custom = (y_prob > t).astype(int)
+    print(f"\nThreshold: {t:.2f}")
+    print(classification_report(y_test, y_pred_custom))
+    # print("\n==============================")
+    # print("Classification Report")
+    # print("==============================")
+    # print(classification_report(y_test, y_pred_custom))
+
+    # print("\n==============================")
+    # print("Confusion Matrix")
+    # print("==============================")
+    # print(confusion_matrix(y_test, y_pred_custom))
+
+    # print("\n==============================")
+    # print("ROC-AUC")
+    # print("==============================")
+    # print("ROC-AUC:", roc_auc_score(y_test, y_prob))
+
+
+# --------------------------------------------------------
+# ✅ Auto-pick best threshold by maximizing F1 (fraud=1)
+# --------------------------------------------------------
+# y_prob must be predicted probabilities for class 1:
+# y_prob = model.predict_proba(X_test)[:, 1]
+
+precision, recall, thresholds = precision_recall_curve(y_test, y_prob)
+
+plt.figure()
+plt.plot(recall, precision)
+plt.xlabel("Recall")
+plt.ylabel("Precision")
+plt.title("Precision-Recall Curve")
+plt.show()
+
+# precision_recall_curve returns:
+# precision: length n+1
+# recall:    length n+1
+# thresholds:length n
+# So, align precision/recall with thresholds by removing last element
+precision_t = precision[:-1]
+recall_t = recall[:-1]
+
+# Compute F1 for each threshold
+f1_scores = (2 * precision_t * recall_t) / (precision_t + recall_t + 1e-12)
+
+best_idx = np.argmax(f1_scores)
+best_threshold = thresholds[best_idx]
+best_f1 = f1_scores[best_idx]
+best_precision = precision_t[best_idx]
+best_recall = recall_t[best_idx]
+
+print("\n" + "="*60)
+print("✅ BEST THRESHOLD (MAX F1 FOR FRAUD CLASS=1)")
+print("="*60)
+print(f"Best Threshold : {best_threshold:.4f}")
+print(f"Best Precision : {best_precision:.4f}")
+print(f"Best Recall    : {best_recall:.4f}")
+print(f"Best F1        : {best_f1:.4f}")
+print("="*60)
+
+# Apply best threshold and evaluate
+y_pred_best = (y_prob >= best_threshold).astype(int)
+
+print("\nClassification Report @ Best Threshold:")
+print(classification_report(y_test, y_pred_best))
+
+print("Confusion Matrix @ Best Threshold:")
+print(confusion_matrix(y_test, y_pred_best))
+
+precision, recall, thresholds = precision_recall_curve(y_test, y_pred_best)
+
+plt.figure()
+plt.plot(recall, precision)
+plt.xlabel("Recall")
+plt.ylabel("Precision")
+plt.title("Precision-Recall Curve")
+plt.show()
 
 # plt.figure()
 # sns.boxplot(x=df[columns_to_describe])
