@@ -34,7 +34,6 @@ htmlcov/
 
 # Local reports and generated EDA artifacts
 /data/
-/reports/
 /data/raw/creditcard.csv
 
 # IDE and editor files

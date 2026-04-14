@@ -1,0 +1,6 @@
+issue,severity,impact_on_model,action_in_next_notebook
+Schema validity,Low,"Expected fraud-detection fields are present, so feature extraction and training can proceed on the intended schema.",Preserve column names and data types during cleaning.
+Missing values,Low,No immediate risk of null-driven failures or inconsistent imputations in downstream steps.,Reconfirm after duplicate handling and any new transformations.
+Target validity,Low,Binary labels are consistent with supervised fraud classification.,Protect the target column from unintended remapping or leakage.
+Duplicate rows,High,"Duplicates can bias class frequencies, skew validation metrics, and leak repeated records across splits.",Identify and remove or justify duplicates before feature engineering and model training.
+Class imbalance,High,"The minority fraud class is only about 0.1727% of records, so accuracy alone may be misleading and the model may under-detect fraud.",Keep the imbalance intact in cleaned data and plan imbalance-aware evaluation and modeling choices later.

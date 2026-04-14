@@ -1,0 +1,15 @@
+metric,value
+amount_p50,22.0
+amount_p75,77.51
+amount_p90,203.38
+amount_p95,365.33750000000003
+amount_p99,1018.965
+amount_p999,3004.7520000004024
+amount_max,25691.16
+time_p50,84692.5
+time_p75,139298.0
+time_p90,157631.0
+time_p95,164138.75
+time_p99,170557.75
+time_p999,172523.27500000002
+time_max,172792.0

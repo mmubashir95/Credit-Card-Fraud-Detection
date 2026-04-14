@@ -1,0 +1,7 @@
+metric,value
+rows_before_cleaning,284807.0
+rows_after_cleaning,283726.0
+rows_removed_as_exact_duplicates,1081.0
+remaining_duplicates,0.0
+fraud_rate_before_percent,0.1727
+fraud_rate_after_percent,0.1667

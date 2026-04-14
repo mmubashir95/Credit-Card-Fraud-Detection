@@ -1,0 +1,8 @@
+check,status
+required_columns,PASS
+missing_values,PASS
+duplicate_rows,FAIL
+target_values,PASS
+time_non_negative,PASS
+amount_non_negative,PASS
+overall_validation,PASS WITH WARNINGS

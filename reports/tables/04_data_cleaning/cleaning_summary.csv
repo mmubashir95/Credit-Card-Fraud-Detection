@@ -1,0 +1,6 @@
+metric,value
+raw_row_count,284807.0
+cleaned_row_count,283726.0
+rows_removed,1081.0
+rows_removed_percent,0.3796
+remaining_duplicate_count,0.0

@@ -1,0 +1,5 @@
+metric,value
+raw_row_count,284807.0
+raw_duplicate_count,1081.0
+raw_unique_count,283726.0
+raw_duplicate_rate_percent,0.3796

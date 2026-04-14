@@ -1,0 +1,9 @@
+metric,value
+final_row_count,283726
+final_column_count,31
+remaining_duplicates,0
+final_missing_values,0
+final_object_columns,0
+fraud_rate_after_cleaning_percent,0.1667
+final_validation_status,PASS
+ready_for_feature_engineering,YES

@@ -1,0 +1,7 @@
+area,status,action_taken,reason
+Missing values,Checked,No imputation applied if missing-value counts remain zero.,No evidence-based need to alter the data when completeness is already acceptable.
+Hidden missing values,Checked,Placeholder-token scan performed for object columns.,Malformed placeholders can break production preprocessing even when null counts are zero.
+Duplicates,Cleaned,Exact duplicate rows removed.,"Duplicates can bias model training, evaluation, and fraud-rate estimates."
+Outliers,Deferred,No blanket outlier removal applied.,Extreme transactions may be meaningful fraud signals and should be reviewed with modeling context.
+Low-information features,Reviewed,Constant and near-constant features documented rather than dropped automatically.,Final feature pruning should be tied to downstream modeling evidence.
+Leakage risk,Reviewed,Schema-level and correlation-based review documented.,"Leakage must be controlled before training and deployment, not discovered after strong validation scores."
