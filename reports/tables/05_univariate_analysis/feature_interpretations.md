@@ -1,5 +1,15 @@
 # Feature Interpretations
 
+## Why `V1` to `V28` Should Not Be Further Transformed
+
+The features `V1` to `V28` are principal components obtained through PCA (Principal Component Analysis). This means they are not original business variables, but transformed combinations of the original confidential features.
+
+These PCA-based features are already centered and scaled as part of the PCA process, and they are also decorrelated from one another. For this reason, they are already in a model-friendly numerical form compared with raw features such as `Amount` or `Time`.
+
+Applying additional transformations such as log transformation is not appropriate because PCA components can contain negative values and do not represent raw measurable quantities. Re-scaling them again is usually unnecessary unless a specific modeling pipeline requires all numerical inputs to pass through one consistent scaler.
+
+In practice, `V1` to `V28` should be used directly in modeling as transformed numerical predictors, while preprocessing attention should focus more on raw features such as `Amount` and `Time`.
+
 ## Feature: `Time`
 - **Skewness interpretation:** `Time` is close to symmetric, which means transaction activity is not perfectly uniform across the observation window. Some periods contain denser transaction activity than others, which may matter when comparing behavior across fraud and non-fraud cases.
 - **Kurtosis interpretation:** `Time` has relatively low kurtosis, so its distribution is flatter and less dominated by sharp extremes. This usually means the feature is more stable and less dependent on rare tail events.
