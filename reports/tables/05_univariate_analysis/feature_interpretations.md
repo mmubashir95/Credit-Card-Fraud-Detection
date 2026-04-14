@@ -10,6 +10,16 @@ Applying additional transformations such as log transformation is not appropriat
 
 In practice, `V1` to `V28` should be used directly in modeling as transformed numerical predictors, while preprocessing attention should focus more on raw features such as `Amount` and `Time`.
 
+## Outlier Interpretation in Fraud Detection
+
+In this dataset, outliers represent transactions that fall far outside the typical range of observed behavior based on the selected statistical threshold. These unusual values may appear in features such as `Amount`, `Time`, or certain PCA-transformed components, and they should not automatically be treated as data errors. In a fraud detection setting, such extreme observations can reflect the exact abnormal patterns the model is expected to identify.
+
+A high outlier count is not surprising in fraud detection because fraudulent transactions are, by nature, rare and behaviorally different from normal transactions. Even some legitimate transactions may appear extreme due to unusual customer behavior, but these rare patterns still matter from a risk-monitoring perspective. For this reason, a large number of outliers does not necessarily indicate poor data quality; it often indicates the presence of meaningful anomaly-related information.
+
+The recommended decision is to **retain outliers**, not remove them blindly. Removing them would risk deleting high-value fraud signals and making the model less sensitive to suspicious behavior. At the same time, extreme values in raw features such as `Amount` may still create instability for some models, so targeted preprocessing such as log transformation or scaling is more appropriate than deletion. For PCA-based variables, outliers should generally be preserved because they may carry important anomaly structure already captured by the transformed feature space.
+
+From an industry ML perspective, the correct approach is to treat outliers as potential risk signals first and preprocessing challenges second. The objective is not to make the dataset look statistically clean, but to preserve the patterns that help distinguish fraud from legitimate activity. Therefore, outliers should be retained, monitored carefully, and handled through robust feature transformation where necessary rather than removed through a blanket rule.
+
 ## Feature: `Time`
 - **Skewness interpretation:** `Time` is close to symmetric, which means transaction activity is not perfectly uniform across the observation window. Some periods contain denser transaction activity than others, which may matter when comparing behavior across fraud and non-fraud cases.
 - **Kurtosis interpretation:** `Time` has relatively low kurtosis, so its distribution is flatter and less dominated by sharp extremes. This usually means the feature is more stable and less dependent on rare tail events.
