@@ -21,6 +21,14 @@
 - `Amount` should continue to be used in transformed form when appropriate, while `Time` may become more useful through derived features rather than raw inclusion alone.
 - The multivariate stage should be used to finalize which features move forward unchanged, which need engineering, and which can be deprioritized.
 
+## Connection to Decision System
+
+- The strongest multivariate features should feed the fraud-risk score that drives the downstream `BLOCK / REVIEW / APPROVE` decision logic.
+- Features such as `V17`, `V14`, `V12`, `V10`, and `V16` help the system identify transactions that are more likely to require immediate blocking because they carry stronger joint fraud signal.
+- Moderate supporting features such as `V3`, `V7`, `V11`, `V4`, and `V18` can strengthen borderline cases and help separate `REVIEW` decisions from clear `APPROVE` decisions.
+- `Amount` and `Time` remain useful as contextual variables because they can help explain why a transaction is unusual, even when they are not strong standalone predictors.
+- This multivariate stage is therefore important not only for model accuracy, but also for building a more reliable and interpretable decision pipeline for operational fraud handling.
+
 ## Key Insights
 
 - `V17`, `V14`, `V12`, `V10`, `V16`, `V3`, `V7`, `V11`, `V4`, and `V18` form the main multivariate candidate set from the bivariate stage.
