@@ -36,11 +36,11 @@
 
 ## Final Bivariate Insights
 
-- `V4` and `V11` show strong practical separation between fraud and non-fraud behavior and should be treated as highly predictive candidates.
-- `V3` shows moderate separation, which makes it useful as a supporting predictive feature.
-- `Amount` and `Time` show weaker standalone relationship with the target and should be treated mainly as contextual variables.
-- PCA-based features capture more complex fraud patterns than raw variables and therefore deserve higher feature-selection priority.
-- These findings should guide feature selection, multivariate analysis, and downstream model design.
+- `V17` shows the strongest relationship with the fraud target in the current bivariate analysis and should be treated as the highest-priority feature for downstream modeling.
+- `V14`, `V12`, `V10`, `V16`, `V3`, `V7`, `V11`, `V4`, and `V18` show moderate relationship with fraud and should be retained as important supporting predictors.
+- `Amount` and `Time` show weak standalone relationship with the target, so they should be treated mainly as contextual variables rather than primary fraud drivers.
+- PCA-based features carry most of the direct predictive signal in this dataset, which reinforces their importance in feature selection and model design.
+- These findings should guide multivariate analysis and modeling by prioritizing the strongest PCA features while using raw variables in transformed or interaction-based form.
 
 ## Connection to Modeling
 
