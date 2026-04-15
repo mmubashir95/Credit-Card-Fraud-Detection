@@ -39,6 +39,10 @@
 - PCA-based features capture more complex fraud patterns than raw variables and therefore deserve higher feature-selection priority.
 - These findings should guide feature selection, multivariate analysis, and downstream model design.
 
+## Connection to Modeling
+
+Based on the bivariate analysis, `V17` stands out as the strongest correlation-based predictor and should receive high modeling priority. A second group of PCA features including `V14`, `V12`, `V10`, `V16`, `V3`, `V7`, `V11`, `V4`, and `V18` shows moderate relationship with the fraud target and should be retained as important supporting inputs. `Amount` and `Time` show weak standalone correlation with fraud, so they should not be relied on as primary predictors and instead should be improved through transformation, scaling, or interaction-based feature engineering. Overall, these results indicate that PCA-derived variables are likely to carry the strongest predictive signal, while raw variables remain useful mainly as contextual features in the final modeling pipeline.
+
 ## Key Insights
 
 - `Amount` may contribute to fraud separation through differences in spread and abnormal value behavior.
