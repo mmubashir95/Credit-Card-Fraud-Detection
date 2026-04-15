@@ -1,0 +1,31 @@
+Feature,Correlation,Interpretation,Importance
+V17,-0.3134982729556793,Strong negative relationship with fraud class; useful as a high-priority screening feature.,Strong
+V14,-0.29337538479004244,Moderate negative relationship with fraud class; useful as a supporting predictive feature.,Moderate
+V12,-0.25071117720572017,Moderate negative relationship with fraud class; useful as a supporting predictive feature.,Moderate
+V10,-0.20697123823505903,Moderate negative relationship with fraud class; useful as a supporting predictive feature.,Moderate
+V16,-0.18718605284536083,Moderate negative relationship with fraud class; useful as a supporting predictive feature.,Moderate
+V3,-0.18232224748340453,Moderate negative relationship with fraud class; useful as a supporting predictive feature.,Moderate
+V7,-0.17234653244006812,Moderate negative relationship with fraud class; useful as a supporting predictive feature.,Moderate
+V11,0.14906710367009615,Moderate positive relationship with fraud class; useful as a supporting predictive feature.,Moderate
+V4,0.12932583072677128,Moderate positive relationship with fraud class; useful as a supporting predictive feature.,Moderate
+V18,-0.10533971521707305,Moderate negative relationship with fraud class; useful as a supporting predictive feature.,Moderate
+V1,-0.09448583378656274,Weak negative relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V9,-0.09402128731255407,Weak negative relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V5,-0.08781244297489552,Weak negative relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V2,0.08462444869117351,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V6,-0.043915409238085734,Weak negative relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V19,0.033631154442230346,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V8,0.03306802333281736,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V21,0.026357438897066807,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V27,0.02189211330695945,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V20,0.02148634032100875,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak
+Time,-0.012359339838080298,Weak negative relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V28,0.009682426330025314,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V24,-0.007210125120706586,Weak negative relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V23,-0.006333210643022919,Weak negative relationship with fraud class; lower standalone value and better used with other variables.,Weak
+Amount,0.005777019670480672,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V22,0.0048872321638307415,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V26,0.004264576791248341,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V13,-0.003896955111430142,Weak negative relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V15,-0.0032995578711372373,Weak negative relationship with fraud class; lower standalone value and better used with other variables.,Weak
+V25,0.003202493530110167,Weak positive relationship with fraud class; lower standalone value and better used with other variables.,Weak

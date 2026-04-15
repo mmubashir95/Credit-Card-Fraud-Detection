@@ -25,6 +25,12 @@
 - Features with strong or moderate absolute rank-biserial correlation should be treated as the most practically important class separators.
 - These features deserve higher priority in multivariate analysis, feature engineering, and downstream modeling.
 
+## Final Correlation-Based Feature Importance Table
+
+- The final correlation table converts raw feature correlations into business-friendly importance labels: `Strong`, `Moderate`, and `Weak`.
+- Strong features should receive the highest modeling priority, moderate features should be retained as supporting predictors, and weak features should not be removed blindly without multivariate review.
+- This table is intended as a screening summary rather than a final feature-selection rule because some weak linear features may still be useful in non-linear models.
+
 ## Key Insights
 
 - `Amount` may contribute to fraud separation through differences in spread and abnormal value behavior.
@@ -39,6 +45,7 @@
 - `reports/tables/06_bivariate_analysis/selected_pca_by_class_summary.csv`
 - `reports/tables/06_bivariate_analysis/correlation_with_target.csv`
 - `reports/tables/06_bivariate_analysis/mann_whitney_top5_features.csv`
+- `reports/tables/06_bivariate_analysis/final_feature_importance_table.csv`
 - `reports/tables/06_bivariate_analysis/bivariate_report.md`
 
 ## Saved Figures
