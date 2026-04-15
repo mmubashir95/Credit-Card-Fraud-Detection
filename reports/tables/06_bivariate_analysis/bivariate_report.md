@@ -12,6 +12,7 @@
 - Time patterns are more likely to act as supporting context than as standalone fraud triggers.
 - The PCA features visualized in this notebook are selected by absolute correlation with `Class`, which makes the class-wise plots directly relevant to downstream modeling decisions.
 - Correlation with `Class` should be treated as a screening signal, not a final feature-selection rule.
+- Because `Class` is a highly imbalanced binary target, Pearson correlation may understate rare-class relationships and should be interpreted together with later non-parametric testing.
 
 ## Statistical Significance Test
 
