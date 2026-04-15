@@ -13,6 +13,7 @@
 - Low pairwise correlation and low VIF among the selected PCA features would support keeping multiple components in the same model without severe redundancy.
 - Differences between fraud and non-fraud correlation structure may indicate that fraud is characterized not only by unusual values, but also by unusual feature interactions.
 - `Amount` and `Time` remain useful as contextual variables, but they are unlikely to dominate model performance without transformation or interaction-based feature engineering.
+- A candidate interaction feature such as `V17_V14_interaction` may improve model performance by capturing joint fraud behavior between two high-signal PCA variables.
 
 ## Impact on Modeling
 
@@ -20,6 +21,7 @@
 - Tree-based models remain suitable because they can capture non-linear boundaries and interaction effects that may not appear in pairwise summaries alone.
 - `Amount` should continue to be used in transformed form when appropriate, while `Time` may become more useful through derived features rather than raw inclusion alone.
 - The multivariate stage should be used to finalize which features move forward unchanged, which need engineering, and which can be deprioritized.
+- Interaction features such as `V17_V14_interaction` should be tested in the next stage because they may improve model performance beyond raw component values alone.
 
 ## Connection to Decision System
 
@@ -47,6 +49,7 @@
 - `reports/tables/07_multivariate_analysis/class_1_correlation_matrix.csv`
 - `reports/tables/07_multivariate_analysis/correlation_difference_matrix.csv`
 - `reports/tables/07_multivariate_analysis/top_feature_interaction_summary.csv`
+- `reports/tables/07_multivariate_analysis/v17_v14_interaction_summary.csv`
 - `reports/tables/07_multivariate_analysis/multivariate_report.md`
 
 ## Saved Figures
