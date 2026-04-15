@@ -45,10 +45,11 @@ Based on the bivariate analysis, `V17` stands out as the strongest correlation-b
 
 ## Key Insights
 
-- `Amount` may contribute to fraud separation through differences in spread and abnormal value behavior.
-- `Time` may add supporting risk context when used with other features.
-- PCA features that show stronger class-wise separation deserve priority in later modeling stages.
-- Bivariate analysis improves model readiness by identifying which variables are more informative with respect to the fraud target.
+- `V17` is the strongest correlation-based feature in the current bivariate analysis and should be prioritized in downstream modeling and multivariate review.
+- `V14`, `V12`, `V10`, `V16`, `V3`, `V7`, `V11`, `V4`, and `V18` form the main group of moderate-strength predictors and should be retained as important supporting features.
+- `Amount` and `Time` remain weak standalone predictors, so their value will likely come from transformation, interaction effects, or combination with stronger PCA-based variables.
+- PCA-derived features carry most of the direct predictive signal in the current dataset, which reinforces their importance for feature selection and model design.
+- The bivariate stage provides a clear screening outcome: prioritize high-signal PCA features, retain moderate features for model support, and treat raw variables as contextual inputs.
 
 ## Saved Tables
 
