@@ -3,14 +3,14 @@
 ## Key Findings
 
 - `Amount` and `Time` should be evaluated against the fraud target because they are the most directly interpretable variables in the dataset.
-- Selected PCA features may show clearer separation between fraud and non-fraud classes than raw variables alone.
+- The PCA visualization section focuses on the top 6 PCA features by absolute correlation with `Class`, so the plotted features are aligned with later feature-priority findings.
 - Class-wise distribution differences provide useful evidence for feature selection and modeling priorities.
 
 ## Bivariate Interpretation
 
 - Differences in class-wise amount behavior may strengthen fraud detection once the feature is transformed appropriately.
 - Time patterns are more likely to act as supporting context than as standalone fraud triggers.
-- PCA variables that shift more clearly by class may become strong inputs for supervised models.
+- The PCA features visualized in this notebook are selected by absolute correlation with `Class`, which makes the class-wise plots directly relevant to downstream modeling decisions.
 - Correlation with `Class` should be treated as a screening signal, not a final feature-selection rule.
 
 ## Statistical Significance Test
