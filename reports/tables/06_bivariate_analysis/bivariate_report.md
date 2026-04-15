@@ -17,7 +17,13 @@
 
 - The top 5 features by absolute relationship with `Class` should be tested using the Mann-Whitney U test.
 - Very small p-values indicate that the fraud and non-fraud distributions differ significantly for those features.
-- Significant results strengthen the case for keeping those variables as priority candidates for downstream modeling.
+- Rank-biserial correlation should be used alongside p-values to measure the strength of class separation.
+- Features with moderate or strong absolute effect size should receive higher priority in downstream modeling.
+
+## Strongest Separating Features
+
+- Features with strong or moderate absolute rank-biserial correlation should be treated as the most practically important class separators.
+- These features deserve higher priority in multivariate analysis, feature engineering, and downstream modeling.
 
 ## Key Insights
 
