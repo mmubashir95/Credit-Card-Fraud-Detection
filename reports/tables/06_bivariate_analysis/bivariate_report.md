@@ -3,12 +3,14 @@
 ## Key Findings
 
 - `Amount` and `Time` should be evaluated against the fraud target because they are the most directly interpretable variables in the dataset.
+- `Amount` is reviewed on both raw and `log1p` scales so that class-wise patterns are not hidden by the extreme right tail.
 - The PCA visualization section focuses on the top 6 PCA features by absolute correlation with `Class`, so the plotted features are aligned with later feature-priority findings.
 - Class-wise distribution differences provide useful evidence for feature selection and modeling priorities.
 
 ## Bivariate Interpretation
 
 - Differences in class-wise amount behavior may strengthen fraud detection once the feature is transformed appropriately.
+- A `log1p(Amount)` comparison is included to make the highly right-skewed amount distribution easier to interpret across fraud classes.
 - Time patterns are more likely to act as supporting context than as standalone fraud triggers.
 - The PCA features visualized in this notebook are selected by absolute correlation with `Class`, which makes the class-wise plots directly relevant to downstream modeling decisions.
 - Correlation with `Class` should be treated as a screening signal, not a final feature-selection rule.
@@ -66,6 +68,7 @@ Based on the bivariate analysis, `V17` stands out as the strongest correlation-b
 
 - `reports/figures/06_bivariate_analysis/amount_by_class_boxplot.png`
 - `reports/figures/06_bivariate_analysis/amount_by_class_distribution.png`
+- `reports/figures/06_bivariate_analysis/log_amount_by_class_distribution.png`
 - `reports/figures/06_bivariate_analysis/time_by_class_boxplot.png`
 - `reports/figures/06_bivariate_analysis/time_by_class_distribution.png`
 - `reports/figures/06_bivariate_analysis/v1_by_class_boxplot.png`
