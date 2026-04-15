@@ -17,8 +17,9 @@
 
 ## Impact on Modeling
 
-- Linear models such as logistic regression can benefit from the low-collinearity PCA features, especially if the strongest components remain stable in the multivariate view and VIF stays in an acceptable range.
-- Tree-based models remain suitable because they can capture non-linear boundaries and interaction effects that may not appear in pairwise summaries alone.
+- Linear models such as logistic regression can still provide a useful baseline because the selected PCA features are numerically stable and relatively low in multicollinearity.
+- Fraud patterns are unlikely to be perfectly linearly separable in the selected feature space, so linear models may miss complex boundaries between legitimate and fraudulent transactions.
+- Tree-based models are therefore preferred for stronger production candidates because they can capture non-linear boundaries and interaction effects that may not appear in pairwise summaries alone.
 - `Amount` should continue to be used in transformed form when appropriate, while `Time` may become more useful through derived features rather than raw inclusion alone.
 - The multivariate stage should be used to finalize which features move forward unchanged, which need engineering, and which can be deprioritized.
 - Interaction features such as `V17_V14_interaction` should be tested in the next stage because they may improve model performance beyond raw component values alone.
