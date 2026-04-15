@@ -31,6 +31,14 @@
 - Strong features should receive the highest modeling priority, moderate features should be retained as supporting predictors, and weak features should not be removed blindly without multivariate review.
 - This table is intended as a screening summary rather than a final feature-selection rule because some weak linear features may still be useful in non-linear models.
 
+## Final Bivariate Insights
+
+- `V4` and `V11` show strong practical separation between fraud and non-fraud behavior and should be treated as highly predictive candidates.
+- `V3` shows moderate separation, which makes it useful as a supporting predictive feature.
+- `Amount` and `Time` show weaker standalone relationship with the target and should be treated mainly as contextual variables.
+- PCA-based features capture more complex fraud patterns than raw variables and therefore deserve higher feature-selection priority.
+- These findings should guide feature selection, multivariate analysis, and downstream model design.
+
 ## Key Insights
 
 - `Amount` may contribute to fraud separation through differences in spread and abnormal value behavior.
