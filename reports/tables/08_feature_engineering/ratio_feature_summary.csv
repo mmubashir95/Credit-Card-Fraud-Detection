@@ -1,0 +1,4 @@
+engineered_feature,source,transformation,reason
+amount_to_mean_ratio,Amount,amount divided by dataset mean,This ratio tests whether transactions far above the dataset average amount carry elevated fraud risk by expressing raw amount as a relative magnitude signal.
+amount_to_median_ratio,Amount,amount divided by dataset median,"This ratio anchors transaction size to the more robust median baseline, which can highlight unusually large payments without being dominated by the extreme right tail of Amount."
+amount_V17_interaction,log_amount x V17,log amount multiplied by strongest fraud PCA signal,"This interaction checks whether transaction magnitude becomes more informative when combined with V17, the strongest fraud-linked PCA feature, to capture high-value anomalous behavior."

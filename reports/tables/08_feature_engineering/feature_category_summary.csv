@@ -17,5 +17,8 @@ V18,PCA
 V3,PCA
 V4,PCA
 V7,PCA
+amount_V17_interaction,RATIO
+amount_to_mean_ratio,RATIO
+amount_to_median_ratio,RATIO
 Amount,RAW
 Time,RAW

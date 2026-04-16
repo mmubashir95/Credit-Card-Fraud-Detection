@@ -1,6 +1,6 @@
 engineered_feature,feature_a,feature_b,reason
-V17_V14_interaction,V17,V14,Capture joint fraud behavior between high-signal PCA features
-V17_V12_interaction,V17,V12,Capture joint fraud behavior between high-signal PCA features
-V14_V12_interaction,V14,V12,Capture joint fraud behavior between high-signal PCA features
-V17_V10_interaction,V17,V10,Capture joint fraud behavior between high-signal PCA features
-V17_V16_interaction,V17,V16,Capture joint fraud behavior between high-signal PCA features
+V17_V14_interaction,V17,V14,"V17 and V14 are the two strongest negative fraud-correlated PCA features, so their interaction tests whether joint downward movement sharpens fraud separation."
+V17_V12_interaction,V17,V12,"V17 and V12 both show strong negative relationships with fraud and remain highly aligned within fraud cases, so this interaction targets a concentrated shared fraud signal."
+V14_V12_interaction,V14,V12,"V14 and V12 each carry strong negative fraud signal and are strongly positively associated in fraud observations, making their product a useful joint risk-strength feature."
+V17_V10_interaction,V17,V10,"V17 and V10 both rank among the strongest negative fraud-linked components, and their strong fraud-class association suggests a meaningful combined anomaly pattern."
+V17_V16_interaction,V17,V16,"V17 and V16 move together most strongly within fraud cases while both remain negatively related to the class label, so their interaction checks for an amplified fraud-specific PCA pattern."
