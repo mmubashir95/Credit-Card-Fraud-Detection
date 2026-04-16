@@ -11,6 +11,7 @@
 
 - Relevance is measured through correlation with `Class` and standardized fraud vs non-fraud separation.
 - Redundancy is flagged through pairwise absolute feature correlation so duplicate signals can be pruned.
+- Flagged redundancy pairs are also resolved into explicit correlation groups so each group states which feature(s) are kept and which are dropped.
 - Model-based evidence is added using Logistic Regression coefficients and Random Forest importances.
 - Features are assigned to `KEEP`, `KEEP_MONITOR`, `DROP_REDUNDANCY`, or `DROP_WEAK`, but only `KEEP` features are exported into the default modeling dataset.
 
@@ -27,6 +28,7 @@
 - `reports/tables/10_feature_selection/feature_relevance_summary.csv`
 - `reports/tables/10_feature_selection/feature_redundancy_pairs.csv`
 - `reports/tables/10_feature_selection/feature_redundancy_summary.csv`
+- `reports/tables/10_feature_selection/redundancy_group_decisions.csv`
 - `reports/tables/10_feature_selection/model_feature_signal_summary.csv`
 - `reports/tables/10_feature_selection/feature_selection_decisions.csv`
 - `reports/tables/10_feature_selection/selected_feature_list.csv`

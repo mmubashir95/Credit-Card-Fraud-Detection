@@ -1,0 +1,4 @@
+group_id,group_features,keep_features,drop_features,group_resolution
+1,"Amount, amount_to_mean_ratio, amount_to_median_ratio",,"Amount (DROP_REDUNDANCY), amount_to_mean_ratio (DROP_REDUNDANCY), amount_to_median_ratio (DROP_WEAK)","Drop the entire group: Amount (DROP_REDUNDANCY), amount_to_mean_ratio (DROP_REDUNDANCY), amount_to_median_ratio (DROP_WEAK)."
+2,"V14_V12_interaction, V17_V10_interaction, V17_V12_interaction, V17_V14_interaction, V17_V16_interaction","V14_V12_interaction, V17_V16_interaction","V17_V10_interaction (DROP_REDUNDANCY), V17_V12_interaction (DROP_REDUNDANCY), V17_V14_interaction (DROP_REDUNDANCY)","Keep V14_V12_interaction, V17_V16_interaction; drop V17_V10_interaction (DROP_REDUNDANCY), V17_V12_interaction (DROP_REDUNDANCY), V17_V14_interaction (DROP_REDUNDANCY)."
+3,"V17, amount_V17_interaction",V17,amount_V17_interaction (DROP_REDUNDANCY),Keep V17; drop amount_V17_interaction (DROP_REDUNDANCY).
