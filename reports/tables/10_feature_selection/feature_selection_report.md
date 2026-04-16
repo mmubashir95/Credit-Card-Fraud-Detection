@@ -9,6 +9,7 @@
 - The notebook now includes one canonical `final_features` list so the final modeling inputs are visible in a single place instead of being implied by intermediate tables.
 - The amount family is resolved explicitly: `log_amount` is retained as the single amount-based feature, while raw `Amount` and the amount ratios are dropped.
 - Visual summaries now support the decision process through model-importance bars, a redundant-feature correlation heatmap, and a `KEEP` versus `DROP` category chart.
+- `KEEP_MONITOR` features are now listed explicitly in their own review table so the gray-zone candidates remain visible even when they are excluded from the default export.
 
 ## Feature Selection Logic
 
@@ -31,6 +32,7 @@
 
 - Retained features form the default input space for baseline fraud models.
 - Any future `KEEP_MONITOR` features should remain outside the default export until a later validation step promotes them.
+- The notebook now prints the `KEEP_MONITOR` count and saves a dedicated review table so those candidates are not silently hidden.
 - Removing redundant or weak features makes downstream model behavior easier to explain and calibrate.
 - A cleaner feature set supports more stable `BLOCK`, `REVIEW`, and `APPROVE` rules in the later decision system.
 - Selected features are suitable for Logistic Regression because the final set removes the most problematic redundant predictors and is therefore more interpretable and less exposed to multicollinearity.
@@ -47,6 +49,7 @@
 - `reports/tables/10_feature_selection/model_feature_signal_summary.csv`
 - `reports/tables/10_feature_selection/model_specific_feature_guidance.csv`
 - `reports/tables/10_feature_selection/feature_selection_decisions.csv`
+- `reports/tables/10_feature_selection/keep_monitor_feature_list.csv`
 - `reports/tables/10_feature_selection/selected_feature_list.csv`
 - `reports/tables/10_feature_selection/dropped_feature_list.csv`
 - `reports/tables/10_feature_selection/final_feature_selection_summary.csv`
