@@ -10,11 +10,11 @@ V11,Time,0.24853595728863123,False
 V4,V17_V12_interaction,0.12306453068664772,False
 V18,V17_V14_interaction,0.205659139504377,False
 Time,V3,0.42205381041134654,False
-Amount,amount_to_mean_ratio,1.0000000000000309,True
-log_amount,amount_to_mean_ratio,0.5518295515402777,False
+Amount,amount_to_mean_ratio,1.0,True
+log_amount,amount_to_mean_ratio,0.5518295515402778,False
 time_day_fraction,Time,0.4161267989399167,False
-amount_to_mean_ratio,Amount,1.0000000000000309,True
-amount_to_median_ratio,amount_to_mean_ratio,1.0000000000000244,True
+amount_to_mean_ratio,Amount,1.0,True
+amount_to_median_ratio,amount_to_mean_ratio,1.0,True
 amount_V17_interaction,V17,0.8537768448110657,True
 V17_V14_interaction,V17_V12_interaction,0.9282927560324069,True
 V17_V12_interaction,V17_V16_interaction,0.9447388028184504,True

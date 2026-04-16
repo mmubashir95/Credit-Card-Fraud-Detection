@@ -1,6 +1,6 @@
 feature_a,feature_b,abs_feature_correlation
-Amount,amount_to_mean_ratio,1.0000000000000309
-amount_to_mean_ratio,amount_to_median_ratio,1.0000000000000244
+amount_to_mean_ratio,amount_to_median_ratio,1.0
+Amount,amount_to_mean_ratio,1.0
 Amount,amount_to_median_ratio,0.9999999999999633
 V17_V12_interaction,V17_V16_interaction,0.9447388028184504
 V17_V14_interaction,V17_V12_interaction,0.9282927560324069
