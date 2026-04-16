@@ -8,6 +8,7 @@
 - The final output is a modeling-ready selected dataset plus an explicit keep or drop decision for every engineered feature.
 - The notebook now includes one canonical `final_features` list so the final modeling inputs are visible in a single place instead of being implied by intermediate tables.
 - The amount family is resolved explicitly: `log_amount` is retained as the single amount-based feature, while raw `Amount` and the amount ratios are dropped.
+- Visual summaries now support the decision process through model-importance bars, a redundant-feature correlation heatmap, and a `KEEP` versus `DROP` category chart.
 
 ## Feature Selection Logic
 
@@ -50,6 +51,12 @@
 - `reports/tables/10_feature_selection/dropped_feature_list.csv`
 - `reports/tables/10_feature_selection/final_feature_selection_summary.csv`
 - `reports/tables/10_feature_selection/feature_selection_report.md`
+
+## Saved Figures
+
+- `reports/figures/10_feature_selection/model_feature_importance_comparison.png`
+- `reports/figures/10_feature_selection/flagged_redundant_feature_heatmap.png`
+- `reports/figures/10_feature_selection/feature_selection_decision_by_category.png`
 
 ## Saved Artifacts
 
