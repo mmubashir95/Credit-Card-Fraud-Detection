@@ -18,6 +18,13 @@
 - The default feature set follows the stricter Logistic Regression-friendly rule: redundant predictors are removed first to control multicollinearity, while tree models may still revisit some dropped correlated features in sensitivity checks.
 - Features are assigned to `KEEP`, `KEEP_MONITOR`, `DROP_REDUNDANCY`, or `DROP_WEAK`, but only `KEEP` features are exported into the default modeling dataset.
 
+## Written Threshold Rule
+
+- `DROP_REDUNDANCY`: drop a feature if it belongs to a pair with `abs_feature_correlation >= 0.85` and it has the weaker combined selection score.
+- `KEEP`: retain a feature if it survives redundancy review and meets at least one strong signal rule: `combined_selection_score >= 0.65` or `abs_correlation_with_class >= 0.08` or `standardized_mean_gap >= 0.50`.
+- `KEEP_MONITOR`: mark a feature for monitoring if it is not redundant and meets at least one weaker screen: `combined_selection_score >= 0.45` or `abs_correlation_with_class >= 0.03`.
+- `DROP_WEAK`: drop a feature if it fails both the `KEEP` and `KEEP_MONITOR` thresholds.
+
 ## Connection to Modeling and Decision System
 
 - Retained features form the default input space for baseline fraud models.
