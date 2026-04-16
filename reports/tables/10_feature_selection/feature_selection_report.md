@@ -32,6 +32,8 @@
 - Any future `KEEP_MONITOR` features should remain outside the default export until a later validation step promotes them.
 - Removing redundant or weak features makes downstream model behavior easier to explain and calibrate.
 - A cleaner feature set supports more stable `BLOCK`, `REVIEW`, and `APPROVE` rules in the later decision system.
+- Selected features are suitable for Logistic Regression because the final set removes the most problematic redundant predictors and is therefore more interpretable and less exposed to multicollinearity.
+- Selected features are suitable for tree models because the retained PCA and interaction features still preserve strong non-linear fraud patterns without carrying unnecessary duplicate signals.
 
 ## Saved Tables
 
