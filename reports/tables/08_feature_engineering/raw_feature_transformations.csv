@@ -1,0 +1,4 @@
+feature,source,transformation,reason
+log_amount,Amount,log1p,Reduce right skew and improve model stability
+time_normalized,Time,max scaling,Put time on a stable 0-1 scale
+time_day_fraction,Time,modulo day fraction,Capture position within an approximate day cycle

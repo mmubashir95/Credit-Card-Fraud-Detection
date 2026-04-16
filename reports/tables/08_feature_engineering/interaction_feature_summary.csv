@@ -1,0 +1,6 @@
+engineered_feature,feature_a,feature_b,reason
+V17_V14_interaction,V17,V14,Capture joint fraud behavior between high-signal PCA features
+V17_V12_interaction,V17,V12,Capture joint fraud behavior between high-signal PCA features
+V14_V12_interaction,V14,V12,Capture joint fraud behavior between high-signal PCA features
+V17_V10_interaction,V17,V10,Capture joint fraud behavior between high-signal PCA features
+V17_V16_interaction,V17,V16,Capture joint fraud behavior between high-signal PCA features
