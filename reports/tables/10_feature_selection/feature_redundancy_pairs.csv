@@ -1,0 +1,12 @@
+feature_a,feature_b,abs_feature_correlation
+Amount,amount_to_mean_ratio,1.0000000000000309
+amount_to_mean_ratio,amount_to_median_ratio,1.0000000000000244
+Amount,amount_to_median_ratio,0.9999999999999633
+V17_V12_interaction,V17_V16_interaction,0.9447388028184504
+V17_V14_interaction,V17_V12_interaction,0.9282927560324069
+V17_V12_interaction,V17_V10_interaction,0.9139192589544639
+V17_V10_interaction,V17_V16_interaction,0.8926674043354812
+V17_V14_interaction,V17_V16_interaction,0.8857986667957912
+V17_V12_interaction,V14_V12_interaction,0.8722733131401713
+V17_V14_interaction,V14_V12_interaction,0.8589740470866619
+V17,amount_V17_interaction,0.8537768448110657
