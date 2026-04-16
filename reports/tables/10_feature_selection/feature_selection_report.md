@@ -7,7 +7,7 @@
 - Logistic Regression and Random Forest are used as early model-aware checks to see whether the same features remain important once we move closer to modeling.
 - The final output is a modeling-ready selected dataset plus an explicit keep or drop decision for every engineered feature.
 - The notebook now includes one canonical `final_features` list so the final modeling inputs are visible in a single place instead of being implied by intermediate tables.
-- The amount family is resolved explicitly: neither `Amount`, `log_amount`, nor the amount ratios are retained in the final selected dataset, although `log_amount` remains the preferred fallback representation for future sensitivity checks.
+- The amount family is resolved explicitly: `log_amount` is retained as the single amount-based feature, while raw `Amount` and the amount ratios are dropped.
 
 ## Feature Selection Logic
 
@@ -24,6 +24,7 @@
 - `KEEP`: retain a feature if it survives redundancy review and meets at least one strong signal rule: `combined_selection_score >= 0.65` or `abs_correlation_with_class >= 0.08` or `standardized_mean_gap >= 0.50`.
 - `KEEP_MONITOR`: mark a feature for monitoring if it is not redundant and meets at least one weaker screen: `combined_selection_score >= 0.45` or `abs_correlation_with_class >= 0.03`.
 - `DROP_WEAK`: drop a feature if it fails both the `KEEP` and `KEEP_MONITOR` thresholds.
+- Amount-family override: keep `log_amount` as the single transaction-size feature, and drop raw `Amount` plus the amount ratio features.
 
 ## Connection to Modeling and Decision System
 

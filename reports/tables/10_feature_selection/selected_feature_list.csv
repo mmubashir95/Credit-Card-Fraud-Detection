@@ -1,4 +1,5 @@
 feature,feature_category,selection_decision,selection_reason
+log_amount,LOG,KEEP,Retained as the single transformed amount feature after resolving the amount family into one representative signal.
 V14_V12_interaction,INTERACTION,KEEP,Shows strong fraud relevance and remains competitive after redundancy review.
 V14,PCA,KEEP,Shows strong fraud relevance and remains competitive after redundancy review.
 V17_V16_interaction,INTERACTION,KEEP,Shows strong fraud relevance and remains competitive after redundancy review.
