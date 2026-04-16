@@ -1,0 +1,22 @@
+{
+  "V17": "PCA",
+  "V14": "PCA",
+  "V12": "PCA",
+  "V10": "PCA",
+  "V16": "PCA",
+  "V3": "PCA",
+  "V7": "PCA",
+  "V11": "PCA",
+  "V4": "PCA",
+  "V18": "PCA",
+  "Time": "RAW",
+  "Amount": "RAW",
+  "log_amount": "LOG",
+  "time_normalized": "NORMALIZED",
+  "time_day_fraction": "NORMALIZED",
+  "V17_V14_interaction": "INTERACTION",
+  "V17_V12_interaction": "INTERACTION",
+  "V14_V12_interaction": "INTERACTION",
+  "V17_V10_interaction": "INTERACTION",
+  "V17_V16_interaction": "INTERACTION"
+}
