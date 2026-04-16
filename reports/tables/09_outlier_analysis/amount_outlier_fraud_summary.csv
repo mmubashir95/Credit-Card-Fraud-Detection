@@ -1,0 +1,3 @@
+amount_outlier_flag,fraud_rate,transaction_count,fraud_count,upper_bound
+False,0.001531496859637916,252041,386,185.375
+True,0.0027457787596654568,31685,87,185.375
