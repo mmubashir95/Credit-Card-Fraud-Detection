@@ -6,6 +6,7 @@
 - Features are not selected by correlation alone; overlap between features is reviewed so the final set stays informative without unnecessary duplication.
 - Logistic Regression and Random Forest are used as early model-aware checks to see whether the same features remain important once we move closer to modeling.
 - The final output is a modeling-ready selected dataset plus an explicit keep or drop decision for every engineered feature.
+- The notebook now includes one canonical `final_features` list so the final modeling inputs are visible in a single place instead of being implied by intermediate tables.
 - The amount family is resolved explicitly: neither `Amount`, `log_amount`, nor the amount ratios are retained in the final selected dataset, although `log_amount` remains the preferred fallback representation for future sensitivity checks.
 
 ## Feature Selection Logic
