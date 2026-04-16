@@ -12,12 +12,12 @@
 - Relevance is measured through correlation with `Class` and standardized fraud vs non-fraud separation.
 - Redundancy is flagged through pairwise absolute feature correlation so duplicate signals can be pruned.
 - Model-based evidence is added using Logistic Regression coefficients and Random Forest importances.
-- Features are assigned to `KEEP`, `KEEP_MONITOR`, `DROP_REDUNDANCY`, or `DROP_WEAK` so the next notebook has a clear starting point.
+- Features are assigned to `KEEP`, `KEEP_MONITOR`, `DROP_REDUNDANCY`, or `DROP_WEAK`, but only `KEEP` features are exported into the default modeling dataset.
 
 ## Connection to Modeling and Decision System
 
 - Retained features form the default input space for baseline fraud models.
-- Monitored features can still be tested in sensitivity analysis before they influence decision thresholds.
+- Any future `KEEP_MONITOR` features should remain outside the default export until a later validation step promotes them.
 - Removing redundant or weak features makes downstream model behavior easier to explain and calibrate.
 - A cleaner feature set supports more stable `BLOCK`, `REVIEW`, and `APPROVE` rules in the later decision system.
 
@@ -30,6 +30,8 @@
 - `reports/tables/10_feature_selection/model_feature_signal_summary.csv`
 - `reports/tables/10_feature_selection/feature_selection_decisions.csv`
 - `reports/tables/10_feature_selection/selected_feature_list.csv`
+- `reports/tables/10_feature_selection/dropped_feature_list.csv`
+- `reports/tables/10_feature_selection/final_feature_selection_summary.csv`
 - `reports/tables/10_feature_selection/feature_selection_report.md`
 
 ## Saved Artifacts

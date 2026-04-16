@@ -1,0 +1,11 @@
+feature,feature_category,selection_decision,selection_reason
+V17_V12_interaction,INTERACTION,DROP_REDUNDANCY,Highly correlated with V17_V16_interaction and carries the weaker combined signal.
+V17_V14_interaction,INTERACTION,DROP_REDUNDANCY,Highly correlated with V17_V12_interaction and carries the weaker combined signal.
+V17_V10_interaction,INTERACTION,DROP_REDUNDANCY,Highly correlated with V17_V12_interaction and carries the weaker combined signal.
+amount_V17_interaction,RATIO,DROP_REDUNDANCY,Highly correlated with V17 and carries the weaker combined signal.
+amount_to_mean_ratio,RATIO,DROP_REDUNDANCY,Highly correlated with amount_to_median_ratio and carries the weaker combined signal.
+Amount,RAW,DROP_REDUNDANCY,Highly correlated with amount_to_mean_ratio and carries the weaker combined signal.
+time_day_fraction,NORMALIZED,DROP_WEAK,Weak relative signal across statistical and model-based screens.
+Time,RAW,DROP_WEAK,Weak relative signal across statistical and model-based screens.
+log_amount,LOG,DROP_WEAK,Weak relative signal across statistical and model-based screens.
+amount_to_median_ratio,RATIO,DROP_WEAK,Weak relative signal across statistical and model-based screens.
