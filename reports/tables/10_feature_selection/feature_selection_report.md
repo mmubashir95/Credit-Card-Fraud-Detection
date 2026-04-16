@@ -13,7 +13,7 @@
 
 - Relevance is measured through correlation with `Class` and standardized fraud vs non-fraud separation.
 - Redundancy is flagged through pairwise absolute feature correlation so duplicate signals can be pruned.
-- Flagged redundancy pairs are also resolved into explicit correlation groups so each group states which feature(s) are kept and which are dropped.
+- Flagged redundancy pairs are also resolved into explicit correlation groups so each group states which feature(s) are kept, which are dropped, and why the representative feature was chosen.
 - Model-based evidence is added using Logistic Regression coefficients and Random Forest importances.
 - The default feature set follows the stricter Logistic Regression-friendly rule: redundant predictors are removed first to control multicollinearity, while tree models may still revisit some dropped correlated features in sensitivity checks.
 - Features are assigned to `KEEP`, `KEEP_MONITOR`, `DROP_REDUNDANCY`, or `DROP_WEAK`, but only `KEEP` features are exported into the default modeling dataset.
