@@ -1,4 +1,4 @@
 selection_decision,feature_count
+KEEP,12
 DROP_REDUNDANCY,6
-DROP_WEAK,3
-KEEP,13
+DROP_WEAK,4
