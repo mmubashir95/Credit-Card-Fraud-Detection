@@ -11,3 +11,4 @@ V3,PCA,KEEP,Shows strong fraud relevance and remains competitive after redundanc
 V11,PCA,KEEP,Shows strong fraud relevance and remains competitive after redundancy review.
 V7,PCA,KEEP,Shows strong fraud relevance and remains competitive after redundancy review.
 V18,PCA,KEEP,Shows strong fraud relevance and remains competitive after redundancy review.
+log_amount,LOG,KEEP,Retained as the single transformed amount feature after resolving the amount family into one representative signal.
