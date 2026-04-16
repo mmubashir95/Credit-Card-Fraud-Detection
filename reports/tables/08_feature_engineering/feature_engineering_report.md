@@ -2,22 +2,24 @@
 
 ## Key Findings
 
-- The engineered dataset keeps the strongest PCA features unchanged and adds transformed raw features plus a small set of interaction features.
-- `Amount` and `Time` are retained in raw form but are also converted into more model-friendly variants.
+- The engineered dataset keeps the strongest PCA features unchanged and adds retained raw-derived features plus a small set of interaction features.
+- `Amount` and `Time` are retained in raw form, while only leakage-safe derived variants are stored in the final feature sheet.
 - Multiple interaction features are created because the strongest fraud signals are likely to interact rather than act independently.
 
 ## Feature Engineering Interpretation
 
 - The strongest PCA features are retained unchanged because they already represent the most stable and informative transformed signals in the dataset.
-- `Amount` and `Time` are not discarded; instead, they are converted into more model-friendly forms through log and scale-based transformations.
+- `Amount` and `Time` are not discarded; instead, they are reviewed through log and time-derived transformations while the raw variables are preserved for downstream modeling.
 - Multiple interaction features are created because fraud behavior is unlikely to be explained by one high-signal PCA component alone.
 - The interaction set is intentionally small and targeted so that later notebooks can evaluate usefulness without creating unnecessary feature explosion.
+- `time_normalized` is kept only as an exploratory screening feature in this notebook and is excluded from the saved engineered dataset to avoid mixing train-fitted normalization with stored feature assets.
 
 ## Connection to Modeling and Decision System
 
 - The engineered feature set should improve the fraud-risk model by combining strong PCA features with transformed raw variables and a small number of high-value interactions.
 - Interaction features such as `V17_V14_interaction`, `V17_V12_interaction`, and `V17_V10_interaction` can help the model capture joint fraud signatures that may strengthen `BLOCK` and `REVIEW` decisions.
-- Transformed raw features such as `log_amount` and `time_normalized` make it easier for baseline linear models to use contextual information without being dominated by scale problems.
+- `log_amount` and `time_day_fraction` are retained in the saved dataset because they are stable derived features rather than train-fitted scaling steps.
+- Any normalization or standardization of `Time` should be handled later inside the modeling pipeline after the train-test split, not stored in the final feature sheet.
 - The final engineered dataset is designed to support both linear baselines and more flexible tree-based models before the later feature-selection stage narrows the final set.
 
 ## Key Insights

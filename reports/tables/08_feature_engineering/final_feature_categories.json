@@ -12,7 +12,6 @@
   "Time": "RAW",
   "Amount": "RAW",
   "log_amount": "LOG",
-  "time_normalized": "NORMALIZED",
   "time_day_fraction": "NORMALIZED",
   "V17_V14_interaction": "INTERACTION",
   "V17_V12_interaction": "INTERACTION",

@@ -12,7 +12,6 @@
   "Time",
   "Amount",
   "log_amount",
-  "time_normalized",
   "time_day_fraction",
   "V17_V14_interaction",
   "V17_V12_interaction",
