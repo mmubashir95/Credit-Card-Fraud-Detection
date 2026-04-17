@@ -1,0 +1,4 @@
+decision_action,probability_rule,decision_reason
+BLOCK,> 0.85,Very high estimated fraud risk should trigger automatic blocking subject to later validation.
+REVIEW,0.60 to 0.85,Intermediate risk should be reviewed manually because the signal is suspicious but not fully decisive.
+APPROVE,< 0.60,Low estimated fraud risk should be approved unless later business constraints suggest otherwise.

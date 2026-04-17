@@ -1,5 +1,5 @@
 insight_area,key_finding,evidence,modeling_implication
 Top bivariate signals,"PCA variables such as V17, V14, V12, V10, and V11 show the strongest direct fraud relationships.","29, 28, 27, 26, 25",Baseline models should prioritize PCA-driven signal over raw contextual variables.
 Outliers,Many outlier regions are fraud-enriched rather than pure noise.,Preserve outliers; tail region is meaningfully fraud-enriched.,Outliers should generally be preserved because they carry anomaly signal.
-Feature engineering,"Interaction features strengthened joint fraud signal, but correlated groups needed pruning.","V14_V12_interaction, V14, V17_V16_interaction, V12, V17","Engineered features help, but redundancy control is required for interpretability and model stability."
+Feature engineering,"Interaction features strengthened joint fraud signal, but correlated groups needed pruning.","V14_V12_interaction, V14, V17_V16_interaction, V12, V17","Useful engineered features should be kept explicitly, while redundant engineered variants should be removed."
 Amount family,The amount family was resolved to a single transformed representation.,KEEP_AS_FINAL_AMOUNT_FEATURE,`log_amount` is retained while raw amount and ratio variants are dropped.

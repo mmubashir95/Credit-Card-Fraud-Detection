@@ -1,0 +1,5 @@
+summary_area,value
+dataset_status,283726 cleaned rows after removing 1081 exact duplicates.
+fraud_rate_after_cleaning,0.1667% fraud rate after cleaning.
+final_feature_count,13
+modeling_readiness,Feature selection is complete and the dataset is ready for baseline modeling.
