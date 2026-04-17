@@ -1,0 +1,4 @@
+strategy_area,planned_approach
+training_response,"Use class weighting first, compare models under imbalance-aware settings, and reserve resampling as a later test."
+decision_thresholds,"Tune probability thresholds for BLOCK, REVIEW, and APPROVE decisions instead of relying on the default 0.50 cutoff."
+evaluation_metrics,"Prioritize recall, precision, F1, and PR-AUC because accuracy is misleading under extreme imbalance."
