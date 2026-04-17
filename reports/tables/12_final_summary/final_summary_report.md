@@ -20,18 +20,27 @@
 - Weak signal supports `APPROVE`.
 - Initial threshold design: `> 0.85 -> BLOCK`, `0.60 to 0.85 -> REVIEW`, `< 0.60 -> APPROVE`.
 
-## Modeling Plan
+## Model Evaluation Results
 
-- Run Logistic Regression and Random Forest baselines.
-- Handle imbalance with class weighting first.
-- Evaluate with recall, precision, F1, and PR-AUC.
-- Tune thresholds after validation.
+⚠️ Model training and evaluation will be completed in the next phase.
+
+Planned models:
+- Logistic Regression
+- Random Forest
+
+Metrics to evaluate:
+- Precision
+- Recall
+- F1-score
+- ROC-AUC
+
+Final model selection will be based on recall (fraud detection priority).
 
 ## Final Recommendation
 
 - Use the finalized non-redundant feature set as the shared starting point for both baseline models.
-- Prioritize fraud recall and decision-threshold validation.
-- Treat the next completed milestone as model comparison and threshold calibration, not more EDA.
+- Train Logistic Regression and Random Forest in the next phase and compare them under the same fraud-focused metrics.
+- Prioritize fraud recall and decision-threshold calibration for `BLOCK`, `REVIEW`, and `APPROVE`.
 
 ## Saved Tables
 
