@@ -1,0 +1,5 @@
+insight_area,key_finding,evidence,modeling_implication
+Missing values,No missing values were detected across the validated columns.,Maximum missing percent = 0.0%,No imputation step is required before baseline modeling.
+Duplicates,Exact duplicate transactions were removed before modeling.,Rows removed = 1081,Removing duplicates reduces leakage risk and avoids overweighting repeated patterns.
+Class imbalance,Fraud remains extremely rare after cleaning.,"Fraud count = 473, fraud rate = 0.1667%",Accuracy alone is misleading; threshold-sensitive fraud metrics are required.
+Amount distribution,Transaction amount is strongly right-skewed.,Amount skewness = 16.98,A transformed amount representation is more stable than raw amount.

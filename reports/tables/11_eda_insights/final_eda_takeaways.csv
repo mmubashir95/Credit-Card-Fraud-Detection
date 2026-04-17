@@ -1,0 +1,7 @@
+final_takeaway
+"Fraud is extremely rare, so the project must evaluate models with imbalance-aware metrics."
+PCA-derived variables carry most of the strongest predictive signal in this dataset.
+Outlier regions are often fraud-enriched and should mostly be preserved.
+Redundant engineered features were pruned to improve interpretability and reduce multicollinearity risk.
+`log_amount` is the retained amount-family feature; raw amount and ratio variants were dropped.
+The final selected feature set is modeling-ready for both Logistic Regression and tree baselines.
