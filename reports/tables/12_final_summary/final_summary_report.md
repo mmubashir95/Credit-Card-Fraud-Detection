@@ -49,6 +49,16 @@ How they influence fraud detection:
 - High recall matters because missed fraud is more costly than additional manual review.
 - The threshold is not `0.50` because fraud detection is highly imbalanced and requires operational decision bands rather than a default binary cutoff.
 
+## NLP Integration Plan
+
+- Customer complaint text can be processed with NLP to produce two outputs: a short summary of the complaint and a sentiment label or score.
+- Complaint summary helps investigators understand the case faster, while sentiment provides an additional behavioral risk signal.
+- Negative sentiment can increase fraud risk because strongly negative complaint language may indicate urgency, dispute patterns, or suspicious transaction experience.
+- Example integration rule: if complaint sentiment is negative, increase the model fraud probability by `10%` as a support adjustment before applying `BLOCK`, `REVIEW`, and `APPROVE` thresholds.
+- NLP supports the decision system; it does not replace the core fraud model.
+- The main fraud score still comes from transaction features, while complaint sentiment and summary provide extra context for borderline or reviewed cases.
+- This means NLP influences the final decision as a supporting signal rather than acting as a standalone fraud detector.
+
 ## Model Evaluation Results
 
 ⚠️ Model training and evaluation will be completed in the next phase.
