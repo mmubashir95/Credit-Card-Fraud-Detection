@@ -1,0 +1,5 @@
+recommendation_area,recommendation
+top_predictive_features,"Use V14_V12_interaction, V14, V17_V16_interaction, V12, V17, and V10 as the main fraud drivers, with V4, V16, V3, V11, V7, V18, and log_amount as supporting inputs."
+data_challenges,"Address severe class imbalance, amount skew before transformation, and redundancy among engineered features."
+modeling_strategy,"Use the selected features, scale where required, start with class weighting, and compare Logistic Regression with Random Forest."
+expected_outcome,"Prioritize fraud recall and convert validated model probabilities into BLOCK, REVIEW, and APPROVE decisions."
