@@ -13,6 +13,17 @@
 - Selected feature count: 13
 - Selected features: V14_V12_interaction, V14, V17_V16_interaction, V12, V17, V10, V4, V16, V3, V11, V7, V18, log_amount
 
+## Handling Class Imbalance
+
+- The dataset is highly imbalanced, with fraud making up about `0.17%` of cleaned transactions.
+- Strategy used for the modeling phase:
+- `class_weight='balanced'` to make fraud errors count more during training.
+- Threshold tuning to support fraud-focused `BLOCK`, `REVIEW`, and `APPROVE` decisions instead of relying on a default cutoff.
+- Impact on model behavior:
+- The model becomes more sensitive to rare fraud cases instead of favoring the majority non-fraud class.
+- This usually increases fraud recall, but it can also increase false positives and manual review volume.
+- The project therefore prioritizes recall-first behavior and then controls operational cost through threshold design.
+
 ## Decision System
 
 - Primary high-risk features support `BLOCK`.
