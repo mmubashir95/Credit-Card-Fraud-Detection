@@ -22,6 +22,17 @@
 - High recall matters because missed fraud is more costly than additional manual review.
 - The threshold is not `0.50` because fraud detection is highly imbalanced and requires operational decision bands rather than a default binary cutoff.
 
+## NLP Integration Plan
+
+- Customer complaint text can be processed with NLP to produce two outputs: a short summary of the complaint and a sentiment label or score.
+- Complaint summary helps investigators understand the case faster, while sentiment provides an additional behavioral risk signal.
+- Negative sentiment can increase fraud risk because strongly negative complaint language may indicate urgency, dispute patterns, or suspicious transaction experience.
+- NLP supports the decision system; it does not replace the core fraud model.
+- The main fraud score still comes from transaction features, while complaint sentiment and summary provide extra context for borderline or reviewed cases.
+- This means NLP influences the final decision as a supporting signal rather than acting as a standalone fraud detector.
+- Provisional NLP rule: only adjust borderline `REVIEW` cases, and never allow NLP alone to trigger `BLOCK`.
+- The `+0.05` adjustment is a provisional value defined for system design purposes. The exact value will be calibrated against validation data during the modeling phase. A logit-level adjustment will also be evaluated as a mathematically sounder alternative at that stage.
+
 ## Model Evaluation Results
 
 ⚠️ Model training and evaluation will be completed in the next phase.
@@ -46,7 +57,7 @@ Final model selection will be based on recall (fraud detection priority).
 
 ## Final Dataset Output
 
-- File path: `data/processed/creditcard_selected_features.csv`
+- File path: `data/processed/final_features.csv`
 - Number of features: `13`
 - Ready for modeling: `Yes`
 
