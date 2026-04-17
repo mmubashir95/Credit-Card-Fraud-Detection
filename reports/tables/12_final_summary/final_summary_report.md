@@ -18,7 +18,9 @@
 - Primary high-risk features support `BLOCK`.
 - Supporting fraud features support `REVIEW`.
 - Weak signal supports `APPROVE`.
-- Initial threshold design: `> 0.85 -> BLOCK`, `0.60 to 0.85 -> REVIEW`, `< 0.60 -> APPROVE`.
+- Exact thresholds: `BLOCK > 0.85`, `REVIEW 0.60 to 0.85`, `APPROVE < 0.60`.
+- High recall matters because missed fraud is more costly than additional manual review.
+- The threshold is not `0.50` because fraud detection is highly imbalanced and requires operational decision bands rather than a default binary cutoff.
 
 ## Model Evaluation Results
 
