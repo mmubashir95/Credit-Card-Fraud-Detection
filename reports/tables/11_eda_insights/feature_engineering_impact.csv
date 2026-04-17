@@ -1,0 +1,3 @@
+engineering_outcome,features,why
+USEFUL_ENGINEERED_FEATURES,"V14_V12_interaction, V17_V16_interaction, log_amount",These engineered features survived the final selection process and contributed unique or preferred signal.
+DROPPED_ENGINEERED_FEATURES,"V17_V12_interaction, V17_V14_interaction, V17_V10_interaction, amount_V17_interaction, amount_to_mean_ratio, amount_to_median_ratio",These engineered features were removed because they were redundant with stronger predictors or weak relative signals.
