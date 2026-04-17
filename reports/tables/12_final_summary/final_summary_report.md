@@ -13,6 +13,22 @@
 - Selected feature count: 13
 - Selected features: V14_V12_interaction, V14, V17_V16_interaction, V12, V17, V10, V4, V16, V3, V11, V7, V18, log_amount
 
+## Feature Importance Interpretation
+
+Top 5 features in the final selected set:
+
+- `V14_V12_interaction`: important because it combines two strong fraud-related PCA dimensions and captures a sharper joint anomaly pattern than either feature alone.
+- `V14`: important because it shows strong separation between fraudulent and legitimate transactions and remains one of the clearest standalone fraud signals.
+- `V17_V16_interaction`: important because it preserves useful non-linear interaction signal after redundancy pruning and helps highlight suspicious combined behavior.
+- `V12`: important because it consistently appears among the strongest retained PCA features and contributes direct fraud-separation power.
+- `V17`: important because it remains a strong standalone fraud indicator even after removing weaker redundant interaction variants.
+
+How they influence fraud detection:
+
+- These features help the model detect transactions that look structurally abnormal in the anonymized PCA feature space.
+- The interaction terms strengthen high-risk detection by capturing combinations of suspicious patterns, while the standalone PCA features provide stable core fraud signal.
+- This section is based on the finalized feature-selection ranking rather than SHAP values or fitted model coefficients, because model training is planned for the next phase.
+
 ## Handling Class Imbalance
 
 - The dataset is highly imbalanced, with fraud making up about `0.17%` of cleaned transactions.
