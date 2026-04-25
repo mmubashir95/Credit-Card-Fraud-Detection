@@ -1,0 +1,3 @@
+model_name,status,uses_class_weight_balanced,test_prediction_rows
+logistic_regression,trained,True,56746
+random_forest,trained,True,56746

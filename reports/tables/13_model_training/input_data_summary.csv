@@ -1,0 +1,5 @@
+metric,value
+row_count,283726
+feature_count,13
+target_column,Class
+fraud_rate,0.001667101358352777

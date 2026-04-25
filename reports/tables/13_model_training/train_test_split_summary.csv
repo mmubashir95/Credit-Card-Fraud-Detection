@@ -1,0 +1,3 @@
+split,row_count,fraud_count,fraud_rate
+train,226980,378,0.0016653449643140364
+test,56746,95,0.0016741268107003137
