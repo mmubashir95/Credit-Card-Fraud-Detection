@@ -6,4 +6,5 @@ cv_fold_metrics,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/report
 cv_oof_predictions,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/reports/tables/13_model_training/cv_oof_predictions.csv
 holdout_test_predictions,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/reports/tables/13_model_training/baseline_test_predictions.csv
 logreg_holdout_metrics,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/reports/tables/13_model_training/logistic_regression_holdout_metrics.csv
+rf_holdout_metrics,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/reports/tables/13_model_training/random_forest_holdout_metrics.csv
 split_ids,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/artifacts/13_model_training/train_test_split_ids.json

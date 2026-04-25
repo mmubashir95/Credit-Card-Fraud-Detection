@@ -16,9 +16,10 @@
 
 ## Models Trained
 - Logistic Regression with median imputation, standard scaling, `max_iter=1000`, and `class_weight='balanced'`
-- Random Forest with median imputation and `class_weight='balanced'`
+- Random Forest with median imputation, `n_estimators=100`, and `class_weight='balanced'`
 
 ## Handoff to Next Notebook
 - Read `cv_summary.csv` and `cv_fold_metrics.csv` to compare fold performance.
 - Read `baseline_test_predictions.csv` to evaluate both final baseline models once on the untouched holdout test set.
 - Read `logistic_regression_holdout_metrics.csv` for the baseline Logistic Regression confusion matrix and core holdout metrics.
+- Read `random_forest_holdout_metrics.csv` for the baseline Random Forest confusion matrix and core holdout metrics.

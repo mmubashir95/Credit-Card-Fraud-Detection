@@ -1,0 +1,2 @@
+model_name,evaluation_split,precision,recall,f1_score,roc_auc,pr_auc,tn,fp,fn,tp
+random_forest,holdout_test,0.958904109589041,0.7368421052631579,0.8333333333333334,0.5071488495116453,0.0019682373936898007,56648,3,25,70
