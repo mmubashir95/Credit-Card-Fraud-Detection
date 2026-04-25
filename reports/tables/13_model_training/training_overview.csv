@@ -1,3 +1,3 @@
-model_name,status,uses_class_weight_balanced,test_prediction_rows
-logistic_regression,trained,True,56746
-random_forest,trained,True,56746
+model_name,validation_strategy,final_fit_status,holdout_test_rows
+logistic_regression,5-fold StratifiedKFold on training split,trained_on_full_training_split,56746
+random_forest,5-fold StratifiedKFold on training split,trained_on_full_training_split,56746

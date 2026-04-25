@@ -1,6 +1,8 @@
 artifact_type,path
 model,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/artifacts/13_model_training/baseline_logistic_regression.joblib
 model,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/artifacts/13_model_training/baseline_random_forest.joblib
-test_predictions,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/reports/tables/13_model_training/baseline_test_predictions.csv
-train_predictions,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/reports/tables/13_model_training/baseline_train_predictions.csv
+cv_summary,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/reports/tables/13_model_training/cv_summary.csv
+cv_fold_metrics,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/reports/tables/13_model_training/cv_fold_metrics.csv
+cv_oof_predictions,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/reports/tables/13_model_training/cv_oof_predictions.csv
+holdout_test_predictions,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/reports/tables/13_model_training/baseline_test_predictions.csv
 split_ids,/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/artifacts/13_model_training/train_test_split_ids.json
