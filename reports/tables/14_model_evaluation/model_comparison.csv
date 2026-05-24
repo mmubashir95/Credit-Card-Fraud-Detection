@@ -1,3 +1,3 @@
-Model,Precision,Recall,F1-score,ROC-AUC,PR-AUC,True Negatives,False Positives,False Negatives,True Positives,Business Interpretation
-Logistic Regression,0.0020847810979847115,0.031578947368421054,0.003911342894393742,0.9605915815115449,0.641875975404191,55215,1436,92,3,"Balanced baseline with meaningful fraud capture, but threshold tuning is still needed before deployment."
-Random Forest,0.0136986301369863,0.010526315789473684,0.011904761904761904,0.9247648343644234,0.8021609079239399,56579,72,94,1,"Balanced baseline with meaningful fraud capture, but threshold tuning is still needed before deployment."
+Model,Precision,Recall,F1-score,ROC-AUC,PR-AUC,Predicted Fraud Count,Predicted Fraud Rate,True Negatives,False Positives,False Negatives,True Positives,Business Interpretation
+Logistic Regression,0.05698401667824878,0.8631578947368421,0.10691003911342895,0.9605915815115449,0.641875975404191,1439,0.02535861558523949,55294,1357,13,82,"High fraud catch rate, but false alerts are high and need threshold control."
+Random Forest,0.958904109589041,0.7368421052631579,0.8333333333333334,0.9247648343644234,0.8021609079239399,73,0.001286434286117083,56648,3,25,70,Low false-alert burden with strong precision; suitable for threshold tuning.

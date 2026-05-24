@@ -32,9 +32,14 @@ htmlcov/
 # Jupyter
 .ipynb_checkpoints/
 
-# Local reports and generated EDA artifacts
+# Local data, reports, figures, tables, and generated analysis artifacts
 /data/
 /data/raw/creditcard.csv
+/reports/
+/figures/
+*report*.md
+*table*.csv
+*tables*.csv
 
 # IDE and editor files
 .vscode/
