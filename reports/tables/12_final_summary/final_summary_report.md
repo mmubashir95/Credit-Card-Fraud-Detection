@@ -31,7 +31,6 @@
 - The main fraud score still comes from transaction features, while complaint sentiment and summary provide extra context for borderline or reviewed cases.
 - This means NLP influences the final decision as a supporting signal rather than acting as a standalone fraud detector.
 - Provisional NLP rule: only adjust borderline `REVIEW` cases, and never allow NLP alone to trigger `BLOCK`.
-- The `+0.05` adjustment is a provisional value defined for system design purposes. The exact value will be calibrated against validation data during the modeling phase. A logit-level adjustment will also be evaluated as a mathematically sounder alternative at that stage.
 
 ## Model Evaluation Results
 

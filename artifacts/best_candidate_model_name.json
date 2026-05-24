@@ -1,0 +1,6 @@
+{
+  "selected_model": "Random Forest",
+  "reason": "Random Forest keeps the stronger threshold-sweep F1 (0.8380) and PR-AUC (0.8022). At its best tested threshold (0.150), it provides a stronger fraud ranking and a more stable false-positive trade-off for the next implementation phase.",
+  "next_stage": "Threshold tuning and BLOCK / REVIEW / APPROVE decision logic",
+  "model_evaluation_status": "Completed"
+}

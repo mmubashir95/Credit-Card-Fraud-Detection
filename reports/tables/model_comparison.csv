@@ -1,0 +1,3 @@
+Model,Precision,Recall,F1-score,ROC-AUC,PR-AUC,True Negatives,False Positives,False Negatives,True Positives,Business Interpretation
+Logistic Regression,0.0020847810979847115,0.031578947368421054,0.003911342894393742,0.9605915815115449,0.641875975404191,55215,1436,92,3,"Balanced baseline with meaningful fraud capture, but threshold tuning is still needed before deployment."
+Random Forest,0.0136986301369863,0.010526315789473684,0.011904761904761904,0.9247648343644234,0.8021609079239399,56579,72,94,1,"Balanced baseline with meaningful fraud capture, but threshold tuning is still needed before deployment."
