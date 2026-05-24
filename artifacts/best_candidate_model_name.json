@@ -1,7 +1,7 @@
 {
   "selected_model": "Random Forest",
   "candidate_threshold_by_f1": 0.15,
-  "reason": "Random Forest is selected as the strongest candidate model because it provides the best balance between precision, recall, F1-score, PR-AUC, top-risk ranking, and controlled alert volume. Its best candidate threshold found in this evaluation notebook is 0.150 by F1-score. However, this should be treated as a candidate operating threshold, not the final production threshold.",
+  "reason": "Random Forest is selected as the strongest candidate model because it provides the best practical balance between fraud detection and false-alert control. It performs strongly in F1-score (0.8380), PR-AUC (0.8022), top-risk ranking, and alert-volume control. The best candidate threshold found in this notebook is 0.150 by F1-score. However, this threshold should not be treated as the final production threshold yet.",
   "next_stage": "Threshold tuning and BLOCK / REVIEW / APPROVE decision logic",
   "model_evaluation_status": "Completed"
 }
