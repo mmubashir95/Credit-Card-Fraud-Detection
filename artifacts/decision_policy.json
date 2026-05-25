@@ -1,0 +1,21 @@
+{
+  "model_name": "Random Forest",
+  "review_threshold": 0.35,
+  "block_threshold": 0.5,
+  "block_threshold_candidate": 0.821,
+  "decision_policy": {
+    "APPROVE": "fraud_probability < review_threshold",
+    "REVIEW": "review_threshold <= fraud_probability < block_threshold",
+    "BLOCK": "fraud_probability >= block_threshold"
+  },
+  "risk_levels": {
+    "Very High Risk": "fraud_probability >= 0.90",
+    "High Risk": "0.70 <= fraud_probability < 0.90",
+    "Medium Risk": "review_threshold <= fraud_probability < 0.70",
+    "Low-Medium Risk": "0.10 <= fraud_probability < review_threshold",
+    "Low Risk": "fraud_probability < 0.10"
+  },
+  "source_threshold_artifact": "artifacts/selected_threshold.json",
+  "source_prediction_file": "reports/tables/13_model_training/baseline_test_predictions.csv",
+  "intended_use": "FastAPI fraud decision response"
+}
