@@ -9,9 +9,9 @@
     "BLOCK": "fraud_probability >= block_threshold"
   },
   "risk_levels": {
-    "Very High Risk": "fraud_probability >= 0.90",
-    "High Risk": "0.70 <= fraud_probability < 0.90",
-    "Medium Risk": "review_threshold <= fraud_probability < 0.70",
+    "Very High Risk": "fraud_probability >= block_threshold",
+    "High Risk": "max(block_threshold - 0.10, review_threshold) <= fraud_probability < block_threshold",
+    "Medium Risk": "review_threshold <= fraud_probability < max(block_threshold - 0.10, review_threshold)",
     "Low-Medium Risk": "0.10 <= fraud_probability < review_threshold",
     "Low Risk": "fraud_probability < 0.10"
   },
