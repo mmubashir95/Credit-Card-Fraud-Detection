@@ -1,7 +1,7 @@
 {
     "model_name": "Random Forest",
     "model_type": "RandomForestClassifier",
-    "training_timestamp": "2026-05-25T21:47:57.061501",
+    "training_timestamp": "2026-05-25T21:55:25.171721",
     "target_column": "Class",
     "feature_count": 13,
     "training_rows": 220530,
