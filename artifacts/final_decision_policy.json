@@ -1,0 +1,16 @@
+{
+    "review_threshold": 0.35,
+    "block_threshold": 0.5,
+    "decision_labels": {
+        "approve": "APPROVE",
+        "review": "REVIEW",
+        "block": "BLOCK"
+    },
+    "decision_rules": {
+        "APPROVE": "probability < 0.35",
+        "REVIEW": "0.35 <= probability < 0.5",
+        "BLOCK": "probability >= 0.5"
+    },
+    "source_policy_file": "/Users/mohammadmubashir/VCode/Credit-Card-Fraud-Detection/artifacts/decision_policy.json",
+    "note": "Decision policy reused from threshold tuning and decision logic notebooks. No new thresholds were created in final model training."
+}
