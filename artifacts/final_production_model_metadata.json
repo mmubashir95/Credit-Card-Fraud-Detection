@@ -1,7 +1,7 @@
 {
     "model_name": "Random Forest Production Refit",
     "model_type": "RandomForestClassifier",
-    "training_timestamp": "2026-05-25T22:05:56.383986",
+    "training_timestamp": "2026-05-25T22:12:01.844964",
     "training_data": "Full validated deduplicated dataset",
     "target_column": "Class",
     "feature_count": 13,
