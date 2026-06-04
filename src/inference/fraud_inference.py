@@ -329,9 +329,6 @@ def predict_batch(
             f"Batch prediction failed: missing required feature columns: {missing_features}"
         )
 
-    for _, row in transactions_df.iterrows():
-        validate_transaction_input(row, feature_columns)
-
     model_input_df = transactions_df.loc[:, feature_columns].copy()
     # Reordering with saved feature_columns protects the model from accidental column shuffling.
     model_input_df = model_input_df.reindex(columns=feature_columns)
