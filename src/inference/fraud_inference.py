@@ -1,3 +1,10 @@
+"""Reusable helpers for fraud model inference.
+
+This module centralizes the logic for loading saved artifacts, validating
+transaction input, preparing model-ready features, applying the business
+decision policy, and predicting both single transactions and batches.
+"""
+
 from __future__ import annotations
 
 import json
@@ -17,6 +24,19 @@ def load_artifacts(
     project_root: str | Path | None = None,
     artifacts_dir: str | Path | None = None,
 ) -> dict[str, Any]:
+    """Load the saved model and supporting inference artifacts.
+
+    Parameters:
+        project_root: Optional project root used to resolve the default artifacts folder.
+        artifacts_dir: Optional explicit artifacts directory override.
+
+    Returns:
+        A dictionary containing the loaded model, metadata, thresholds, and paths.
+
+    Raises:
+        FileNotFoundError: If any required saved artifact file is missing.
+    """
+    # Defaults keep notebook and API usage simple, while overrides support other runtimes later.
     resolved_project_root = Path(project_root).resolve() if project_root else DEFAULT_PROJECT_ROOT
     resolved_artifacts_dir = (
         Path(artifacts_dir).resolve() if artifacts_dir else resolved_project_root / "artifacts"
@@ -59,6 +79,18 @@ def load_artifacts(
 
 
 def validate_transaction_input(transaction: dict[str, Any] | pd.Series, feature_columns: list[str]) -> bool:
+    """Validate one transaction against the saved feature schema.
+
+    Parameters:
+        transaction: One transaction as a dict or pandas Series.
+        feature_columns: Required feature names in saved training order.
+
+    Returns:
+        True when the transaction is valid for inference.
+
+    Raises:
+        ValueError: If the input is empty, has missing features, or contains non-numeric values.
+    """
     if isinstance(transaction, pd.Series):
         transaction_data = transaction.to_dict()
     elif isinstance(transaction, dict):
@@ -102,6 +134,7 @@ def validate_transaction_input(transaction: dict[str, Any] | pd.Series, feature_
         column_name for column_name in transaction_data if column_name not in feature_columns
     ]
     if extra_columns:
+        # Extra fields can appear in API payloads, so we ignore them instead of passing them to the model.
         print(f"Warning: ignoring extra input columns: {extra_columns}")
 
     return True
@@ -110,6 +143,18 @@ def validate_transaction_input(transaction: dict[str, Any] | pd.Series, feature_
 def prepare_model_input(
     transaction: dict[str, Any] | pd.Series, feature_columns: list[str]
 ) -> pd.DataFrame:
+    """Convert one validated transaction into a one-row model input DataFrame.
+
+    Parameters:
+        transaction: One transaction as a dict or pandas Series.
+        feature_columns: Required feature names in the exact saved training order.
+
+    Returns:
+        A one-row pandas DataFrame ready for model prediction.
+
+    Raises:
+        ValueError: If validation fails or the prepared DataFrame does not match the expected schema.
+    """
     validate_transaction_input(transaction, feature_columns)
 
     if isinstance(transaction, pd.Series):
@@ -122,6 +167,7 @@ def prepare_model_input(
     }
 
     model_input_df = pd.DataFrame([filtered_transaction])
+    # The saved feature order must be reused exactly so inference matches training-time column order.
     model_input_df = model_input_df.reindex(columns=feature_columns)
     model_input_df = model_input_df.apply(pd.to_numeric, errors="raise")
 
@@ -146,6 +192,15 @@ def prepare_model_input(
 
 
 def apply_decision_policy(probability: float, policy: dict[str, Any]) -> dict[str, str]:
+    """Convert a fraud probability into a business decision.
+
+    Parameters:
+        probability: Fraud probability predicted by the saved model.
+        policy: Decision policy containing review and block thresholds.
+
+    Returns:
+        A dictionary with decision, risk level, and reason.
+    """
     review_threshold = policy["review_threshold"]
     block_threshold = policy["block_threshold"]
 
@@ -179,6 +234,23 @@ def predict_fraud(
     project_root: str | Path | None = None,
     artifacts_dir: str | Path | None = None,
 ) -> dict[str, Any]:
+    """Predict fraud risk for one transaction and return an API-ready response.
+
+    Parameters:
+        transaction: One transaction as a dict or pandas Series.
+        model: Optional already-loaded model to avoid reloading artifacts repeatedly.
+        feature_columns: Optional saved feature list in model input order.
+        decision_policy: Optional saved review/block threshold policy.
+        model_metadata: Optional saved metadata used for model version reporting.
+        project_root: Optional project root used when artifacts must be loaded.
+        artifacts_dir: Optional explicit artifacts directory override.
+
+    Returns:
+        A dictionary containing fraud probability, business decision, thresholds, and model version.
+
+    Raises:
+        ValueError: If the transaction input is invalid for inference.
+    """
     if model is None or feature_columns is None or decision_policy is None:
         artifacts = load_artifacts(project_root=project_root, artifacts_dir=artifacts_dir)
         model = artifacts["model"] if model is None else model
@@ -187,8 +259,10 @@ def predict_fraud(
         model_metadata = artifacts["model_metadata"] if model_metadata is None else model_metadata
 
     model_input_df = prepare_model_input(transaction, feature_columns)
+    # Column 1 of predict_proba is the positive fraud class probability used by downstream decisions.
     fraud_probability = float(model.predict_proba(model_input_df)[0][1])
 
+    # Business thresholds are applied after scoring so model probability and policy stay separate.
     decision_result = apply_decision_policy(fraud_probability, decision_policy)
     model_metadata = model_metadata or {}
     model_version = model_metadata.get("model_version") or model_metadata.get("version")
@@ -214,6 +288,22 @@ def predict_batch(
     project_root: str | Path | None = None,
     artifacts_dir: str | Path | None = None,
 ) -> pd.DataFrame:
+    """Predict fraud risk for a batch of transactions.
+
+    Parameters:
+        transactions_df: Batch input as a pandas DataFrame.
+        model: Optional already-loaded model to avoid reloading artifacts repeatedly.
+        feature_columns: Optional saved feature list in model input order.
+        decision_policy: Optional saved review/block threshold policy.
+        project_root: Optional project root used when artifacts must be loaded.
+        artifacts_dir: Optional explicit artifacts directory override.
+
+    Returns:
+        A DataFrame with row identifiers, fraud probability, decision, risk level, and reason.
+
+    Raises:
+        ValueError: If the batch is empty, not a DataFrame, or is missing required feature columns.
+    """
     if not isinstance(transactions_df, pd.DataFrame):
         raise ValueError("Batch prediction failed: input must be a pandas DataFrame.")
 
@@ -230,6 +320,7 @@ def predict_batch(
     if "sample_id" in transactions_df.columns:
         sample_id_series = transactions_df["sample_id"].copy()
 
+    # Batch-level schema checks fail fast and clearly before value-level validation looks at each row.
     missing_features = [
         column_name for column_name in feature_columns if column_name not in transactions_df.columns
     ]
@@ -242,9 +333,11 @@ def predict_batch(
         validate_transaction_input(row, feature_columns)
 
     model_input_df = transactions_df.loc[:, feature_columns].copy()
+    # Reordering with saved feature_columns protects the model from accidental column shuffling.
     model_input_df = model_input_df.reindex(columns=feature_columns)
     model_input_df = model_input_df.apply(pd.to_numeric, errors="raise")
 
+    # Column 1 gives the fraud-class probability for every row in the batch.
     fraud_probabilities = model.predict_proba(model_input_df)[:, 1]
 
     prediction_rows = []
