@@ -1,29 +1,20 @@
-Here is a strong **Codex instructions file** you can save as:
-
-```text
-AGENTS.md
-```
-
-This is for your **Credit Card Fraud Detection + NLP Project**. It follows your project purpose: ML fraud detection, BLOCK / REVIEW / APPROVE decision logic, complaint NLP, FastAPI, and deployment.  It also respects your notebook-based ML workflow and EDA structure. 
-
-````md
 # AGENTS.md — Codex Instructions
 
 ## Project Context
 
-This is an end-to-end AI project for Credit Card Fraud Detection and Complaint Analysis.
+This is an end-to-end AI project for **Credit Card Fraud Detection and Complaint Analysis**.
 
 The final system should:
 
-- Detect fraudulent transactions using machine learning.
-- Return fraud probability.
+- Detect fraudulent credit card transactions using machine learning.
+- Return a fraud probability.
 - Apply business decision logic:
-  - BLOCK
-  - REVIEW
-  - APPROVE
+  - `BLOCK`
+  - `REVIEW`
+  - `APPROVE`
 - Analyze customer complaints using NLP.
 - Expose the final system through a FastAPI API.
-- Be understandable as both an academic project and a portfolio-level industry project.
+- Stay understandable as both an academic project and a portfolio-level industry project.
 
 Expected final output example:
 
@@ -37,27 +28,30 @@ Expected final output example:
     "summary": "Unauthorized transaction"
   }
 }
-````
+```
+
+---
 
 ## Main Rule
 
-Do not over-engineer.
+**Do not over-engineer.**
 
 The code must be:
 
-* Human-understandable
-* Manageable
-* Debuggable
-* Easy for a learning student to explain
-* Suitable for an academic ML/NLP project
+- Human-understandable
+- Manageable
+- Debuggable
+- Easy for a learning student to explain
+- Suitable for an academic ML/NLP project
+- Clean enough for a portfolio project
 
-Prefer clear simple code over complex abstractions.
+Prefer clear, simple code over clever abstractions.
 
 ---
 
 ## Current Project Goal
 
-The project is being built step by step using notebooks.
+The project is being built step by step using notebooks first, then reusable Python files.
 
 The important project layers are:
 
@@ -66,11 +60,12 @@ The important project layers are:
 3. Decision logic
 4. Final model training
 5. Inference pipeline
-6. FastAPI prediction endpoint
-7. Basic NLP sentiment + summary
-8. Deployment-ready structure
+6. Reusable inference helper module
+7. FastAPI prediction endpoint
+8. Basic NLP sentiment + summary
+9. Deployment-ready structure
 
-Do not jump ahead unless asked.
+Do not jump ahead unless the task explicitly asks for it.
 
 ---
 
@@ -79,15 +74,133 @@ Do not jump ahead unless asked.
 Follow these rules in every change:
 
 1. Keep the code simple and readable.
-2. Add comments only where they help understanding.
-3. Do not add unnecessary classes, factories, decorators, or abstractions.
-4. Do not silently change existing behavior.
-5. Preserve existing notebook flow and section headings.
-6. Keep variable names clear and descriptive.
-7. Avoid clever one-liners if a simple version is easier to understand.
-8. Do not introduce new libraries unless clearly needed.
-9. Do not rewrite the whole project unless explicitly asked.
-10. Make the smallest safe change that solves the problem.
+2. Use clear variable names.
+3. Avoid clever one-liners when a simple multi-line version is easier to understand.
+4. Do not introduce unnecessary classes, factories, decorators, or abstractions.
+5. Do not introduce new libraries unless clearly needed.
+6. Do not silently change existing behavior.
+7. Preserve existing notebook flow and section headings.
+8. Do not rewrite the whole project unless explicitly asked.
+9. Make the smallest safe change that solves the task.
+10. Prefer explicit validation errors over silent failures.
+11. Keep functions focused on one responsibility.
+12. Do not duplicate the same logic in multiple notebooks/files when a reusable helper already exists.
+
+---
+
+## Code Comments and Documentation Rules
+
+Comments are required, but they must be useful.
+
+### Function-Level Comments / Docstrings
+
+Every reusable function must have a short docstring that explains:
+
+1. What the function does.
+2. Important inputs.
+3. What it returns.
+4. Any important validation or side effect.
+
+Use this style:
+
+```python
+def validate_transaction_input(transaction, feature_columns):
+    """
+    Validate one transaction before sending it to the fraud model.
+
+    Parameters
+    ----------
+    transaction : dict
+        Incoming transaction values keyed by feature name.
+    feature_columns : list[str]
+        Feature names expected by the model, in training order.
+
+    Returns
+    -------
+    dict
+        Clean transaction dictionary containing only model features.
+
+    Raises
+    ------
+    ValueError
+        If required features are missing or values are not numeric.
+    """
+```
+
+### Line Comments
+
+Use line comments only when they explain why something is done or prevent confusion.
+
+Good line comments:
+
+```python
+# Keep the saved training order so the model receives the same column order during inference.
+model_input = model_input[feature_columns]
+```
+
+```python
+# Convert numpy float to plain Python float so the response is JSON serializable.
+fraud_probability = float(model.predict_proba(model_input)[0, 1])
+```
+
+Avoid useless comments:
+
+```python
+# Import pandas
+import pandas as pd
+
+# Return result
+return result
+```
+
+### Comment Balance
+
+Do not comment every line.
+
+Use comments for:
+
+- Feature order logic
+- Threshold/decision policy logic
+- Data leakage prevention
+- Artifact loading/saving
+- Input validation
+- JSON/API response formatting
+- Any step that may confuse a beginner later
+
+Avoid comments for obvious Python syntax.
+
+---
+
+## Reusable Function Rules
+
+When creating or editing reusable Python functions:
+
+1. Each function must do one clear job.
+2. Each function must have a docstring.
+3. Keep function names descriptive.
+4. Validate inputs near the start of the function.
+5. Return predictable output types.
+6. Raise clear errors with beginner-friendly messages.
+7. Avoid hidden global state unless loading shared artifacts intentionally.
+8. Do not print inside reusable functions unless the function is specifically for notebook/demo output.
+9. Keep reusable functions API-ready.
+10. Add useful line comments for non-obvious steps.
+
+Preferred function pattern:
+
+```python
+def function_name(input_value):
+    """
+    Explain what the function does, expected input, output, and important errors.
+    """
+    if input_value is None:
+        raise ValueError("input_value is required.")
+
+    # Explain the reason for any non-obvious transformation.
+    cleaned_value = ...
+
+    return cleaned_value
+```
 
 ---
 
@@ -96,25 +209,20 @@ Follow these rules in every change:
 When editing notebooks:
 
 1. Keep the notebook phase-based.
-
 2. Each phase should have:
-
-   * A clear markdown explanation
-   * Simple code cells
-   * Clear output
-   * A short explanation of why the step matters
-
+   - A clear markdown title
+   - A beginner-friendly explanation
+   - Simple code cells
+   - Clear output
+   - A short explanation of why the step matters
 3. Do not generate a full notebook in one giant step unless explicitly requested.
-
 4. Prefer building notebooks phase by phase.
-
 5. Every important ML decision should be explained in markdown.
-
-6. Do not hide important logic inside helper functions too early.
-
+6. Do not hide important learning logic inside helper functions too early.
 7. Helper functions are allowed only when they make the notebook easier to understand.
-
 8. Keep outputs clean and interpretable.
+9. Do not retrain the model inside inference notebooks.
+10. Do not tune thresholds again inside inference notebooks.
 
 ---
 
@@ -123,28 +231,22 @@ When editing notebooks:
 When working on the ML model:
 
 1. Do not create data leakage.
-
 2. Do not fit transformations on the test set.
-
 3. Do not tune thresholds on the final test set.
-
 4. Do not report production-refit performance as honest test performance.
-
 5. Keep validation/test results separate from production artifacts.
-
 6. Always explain whether a result comes from:
-
-   * Cross-validation
-   * OOF validation
-   * Holdout/test set
-   * Full-data production refit
-
+   - Cross-validation
+   - OOF validation
+   - Holdout/test set
+   - Full-data production refit
 7. If using a train/test split:
-
-   * Use stratification for imbalanced fraud data.
-   * Keep the test set untouched until final evaluation.
-
+   - Use stratification for imbalanced fraud data.
+   - Keep the test set untouched until final evaluation.
 8. For fraud detection, recall is important, but precision and false positives must also be shown.
+9. Do not change selected features unless explicitly asked.
+10. Do not change thresholds unless explicitly asked.
+11. Do not compare validation metrics and holdout metrics as if they came from the same dataset.
 
 ---
 
@@ -169,18 +271,17 @@ Rules:
 2. Load thresholds from the saved decision policy artifact where possible.
 3. Keep `review_threshold` and `block_threshold` clearly separated.
 4. Explain the difference between:
-
-   * Evaluation threshold
-   * Review threshold
-   * Block threshold
+   - Evaluation threshold
+   - Review threshold
+   - Block threshold
 5. Do not confuse validation threshold results with holdout/test results.
 6. If threshold values change, update decision logic and saved artifacts consistently.
+7. Use `>=` consistently for threshold comparison.
+8. Validate that `review_threshold <= block_threshold`.
 
 ---
 
 ## Artifact Rules
-
-When saving artifacts, use clear names.
 
 Recommended artifacts:
 
@@ -198,29 +299,34 @@ Rules:
 1. Save model artifacts only after validation.
 2. Save feature columns in the exact order used for training.
 3. Save metadata explaining:
-
-   * Model type
-   * Dataset used
-   * Train/test split
-   * Thresholds
-   * Metrics
-   * Creation date
+   - Model type
+   - Dataset used
+   - Train/test split
+   - Thresholds
+   - Metrics
+   - Creation date
 4. Reload saved artifacts and test them after saving.
 5. The inference notebook must load artifacts, not retrain the model.
+6. If an artifact is missing, stop with a clear error message.
+7. Do not manually recreate feature columns if `final_feature_columns.json` exists.
+8. Do not manually recreate thresholds if `final_decision_policy.json` exists.
 
 ---
 
 ## Inference Pipeline Rules
 
-For `18_inference_pipeline.ipynb` or inference code:
+For `18_inference_pipeline.ipynb` and reusable inference code:
 
 1. Do not retrain the model.
-2. Load the saved final model.
-3. Load saved feature columns.
-4. Load saved decision policy.
-5. Validate incoming transaction input.
-6. Ensure feature order matches training.
-7. Return an API-ready response.
+2. Do not tune thresholds again.
+3. Do not change selected features.
+4. Load the saved final model.
+5. Load saved feature columns.
+6. Load saved decision policy.
+7. Validate incoming transaction input.
+8. Ensure feature order matches training.
+9. Return an API-ready response.
+10. Keep the code easy to explain.
 
 Expected response format:
 
@@ -228,17 +334,143 @@ Expected response format:
 {
     "fraud_probability": 0.91,
     "decision": "BLOCK",
-    "reason": "High risk pattern"
+    "risk_level": "HIGH",
+    "reason": "Fraud probability is above the block threshold."
 }
 ```
 
 Input validation must check:
 
-* All required features are present.
-* No required feature is missing.
-* Values are numeric.
-* Feature order is correct.
-* Extra fields are handled safely.
+- All required features are present.
+- No required feature is missing.
+- Values are numeric.
+- Feature order is preserved.
+- Extra fields are handled safely.
+
+---
+
+## Required Inference Helper Module Rules
+
+When creating `src/inference/fraud_inference.py`, keep it simple and reusable.
+
+Recommended functions:
+
+1. `load_artifacts()`
+2. `validate_transaction_input()`
+3. `prepare_model_input()`
+4. `apply_decision_policy()`
+5. `predict_fraud()`
+6. `predict_batch()`
+
+### `load_artifacts()`
+
+Purpose:
+
+- Load the trained model, feature columns, metadata, and decision policy.
+- Validate that all required artifact files exist.
+
+Rules:
+
+- Do not retrain the model.
+- Use clear artifact paths.
+- Raise `FileNotFoundError` if any artifact is missing.
+- Return artifacts in a simple dictionary.
+- Add comments explaining why feature columns and policy are loaded with the model.
+
+Expected style:
+
+```python
+def load_artifacts(artifact_dir="artifacts"):
+    """
+    Load saved model artifacts needed for fraud inference.
+
+    Parameters
+    ----------
+    artifact_dir : str
+        Directory containing the saved model, feature columns, metadata, and decision policy.
+
+    Returns
+    -------
+    dict
+        Dictionary containing model, feature columns, decision policy, and optional metadata.
+
+    Raises
+    ------
+    FileNotFoundError
+        If any required artifact file is missing.
+    """
+```
+
+### `validate_transaction_input()`
+
+Purpose:
+
+- Check one incoming transaction before prediction.
+
+Rules:
+
+- Check missing required features.
+- Check values are numeric.
+- Ignore or safely handle extra fields.
+- Raise `ValueError` with a clear message if input is invalid.
+- Return cleaned input containing only required model features.
+
+### `prepare_model_input()`
+
+Purpose:
+
+- Convert validated transaction data into a model-ready DataFrame.
+
+Rules:
+
+- Preserve exact feature order from `final_feature_columns.json`.
+- Create a one-row pandas DataFrame for single prediction.
+- Add a line comment explaining why feature order is critical.
+
+### `apply_decision_policy()`
+
+Purpose:
+
+- Convert fraud probability into business decision output.
+
+Rules:
+
+- Use saved `review_threshold` and `block_threshold`.
+- Use the project decision order: BLOCK, REVIEW, APPROVE.
+- Return decision, risk level, and reason.
+- Validate that required threshold keys exist.
+- Validate that `review_threshold <= block_threshold`.
+
+### `predict_fraud()`
+
+Purpose:
+
+- Run the full single-transaction inference flow.
+
+Rules:
+
+- Validate input.
+- Prepare model input.
+- Predict fraud probability.
+- Apply decision policy.
+- Return API-ready dictionary.
+- Convert numpy values to plain Python types.
+- Do not print inside this function.
+
+### `predict_batch()`
+
+Purpose:
+
+- Run predictions for multiple transactions.
+
+Rules:
+
+- Accept a list of transaction dictionaries or a pandas DataFrame.
+- Validate each transaction.
+- Preserve feature order.
+- Return a list of API-ready prediction dictionaries.
+- Keep implementation simple.
+- Do not use advanced batching abstractions unless needed.
 
 ---
 
@@ -254,29 +486,31 @@ When building the API:
 6. Return clear JSON responses.
 7. Handle errors with readable messages.
 8. Keep API code separate from notebook code.
+9. Reuse `src/inference/fraud_inference.py` instead of duplicating inference logic.
 
 Recommended structure:
 
 ```text
 src/
-├── models/
-│   └── predict.py
-├── pipelines/
-│   └── inference_pipeline.py
-└── api/
-    └── main.py
+├── inference/
+│   ├── __init__.py
+│   └── fraud_inference.py
+├── api/
+│   └── main.py
+└── nlp/
+    └── complaint_analysis.py
 ```
 
 ---
 
 ## NLP Rules
 
-The NLP part is basic and should not be overcomplicated.
+The NLP part should stay basic first.
 
 Goal:
 
-* Analyze complaint sentiment.
-* Generate a short complaint summary.
+- Analyze complaint sentiment.
+- Generate a short complaint summary.
 
 Rules:
 
@@ -284,6 +518,8 @@ Rules:
 2. Do not add complex LangChain, RAG, CrewAI, or agents unless asked.
 3. First version can use a basic model or simple NLP pipeline.
 4. NLP output should integrate with the final API response.
+5. Keep NLP functions documented with docstrings.
+6. Do not mix NLP logic directly inside fraud model functions.
 
 Expected structure:
 
@@ -300,47 +536,38 @@ Expected structure:
 
 Respect the existing project structure.
 
-Recommended structure:
+Do not move files unless asked.
+
+Preferred project structure for the current stage:
 
 ```text
-data/
-├── raw/
-├── interim/
-├── processed/
-
 notebooks/
-├── 01_problem_understanding.ipynb
-├── 02_data_loading_and_overview.ipynb
-├── 03_data_validation.ipynb
-├── 04_data_cleaning.ipynb
-├── 05_univariate_analysis.ipynb
-├── 06_bivariate_analysis.ipynb
-├── 07_multivariate_analysis.ipynb
-├── 08_feature_engineering.ipynb
-├── 09_outlier_analysis.ipynb
-├── 10_feature_selection.ipynb
-├── 11_model_training.ipynb
-├── 12_model_evaluation.ipynb
-├── 13_threshold_tuning.ipynb
-├── 14_decision_logic.ipynb
-├── 15_final_model_training.ipynb
-├── 16_inference_pipeline.ipynb
+├── 15_threshold_tuning.ipynb
+├── 16_decision_logic.ipynb
+├── 17_final_model_training.ipynb
+├── 18_inference_pipeline.ipynb
 
 src/
-├── data/
-├── features/
-├── models/
-├── pipelines/
-├── visualization/
+├── inference/
+│   ├── __init__.py
+│   └── fraud_inference.py
+├── api/
+├── nlp/
 ├── utils/
 
 artifacts/
-reports/
-tests/
-scripts/
-```
+├── final_validated_fraud_model.joblib
+├── final_feature_columns.json
+├── final_model_metadata.json
+├── final_model_metrics.json
+├── final_decision_policy.json
 
-Do not move files unless asked.
+reports/
+├── figures/
+├── tables/
+
+tests/
+```
 
 ---
 
@@ -352,14 +579,30 @@ Before finishing any task, check:
 2. Are imports correct?
 3. Are paths correct?
 4. Are saved artifacts created in the expected place?
-5. Are metrics calculated correctly?
-6. Is there any data leakage?
-7. Is feature order preserved?
-8. Does the final prediction output make sense?
+5. Are required artifacts loaded correctly?
+6. Are metrics calculated correctly?
+7. Is there any data leakage?
+8. Is feature order preserved?
+9. Does the prediction output make sense?
+10. Does the response use plain Python/JSON-serializable values?
+11. Does the notebook still run top-to-bottom?
+12. Did the change avoid retraining when working on inference?
 
 If tests exist, run them.
 
 If there are no tests, add only simple useful tests when asked.
+
+Suggested checks for inference helper files:
+
+```bash
+python -m py_compile src/inference/fraud_inference.py
+```
+
+If a project test suite exists:
+
+```bash
+pytest
+```
 
 ---
 
@@ -370,7 +613,8 @@ When making changes, also explain:
 1. What was changed.
 2. Why it was changed.
 3. What problem it solves.
-4. What the user should check next.
+4. How to test it.
+5. What the next safe step is.
 
 Use beginner-friendly explanations.
 
@@ -394,12 +638,12 @@ Do not exaggerate model quality.
 
 Always be honest about:
 
-* Class imbalance
-* False positives
-* False negatives
-* Recall limitations
-* Difference between validation and test performance
-* Difference between validated model and production refit model
+- Class imbalance
+- False positives
+- False negatives
+- Recall limitations
+- Difference between validation and test performance
+- Difference between validated model and production refit model
 
 Never claim the model is production-ready unless:
 
@@ -417,9 +661,9 @@ A production refit model may be trained on the full labeled dataset only after f
 
 Important:
 
-* The validated model is used for honest performance reporting.
-* The production refit model is trained on all labeled data after evaluation.
-* Do not use the production refit model to report final test metrics because it has seen all data.
+- The validated model is used for honest performance reporting.
+- The production refit model is trained on all labeled data after evaluation.
+- Do not use the production refit model to report final test metrics because it has seen all data.
 
 Use a control flag:
 
@@ -437,11 +681,13 @@ For each task:
 
 1. Read the existing notebook or file first.
 2. Understand the current flow.
-3. Make a minimal safe change.
-4. Preserve existing behavior unless the user asks to change it.
+3. Identify the smallest safe change.
+4. Preserve existing behavior unless the task asks to change it.
 5. Add markdown explanation if working in a notebook.
-6. Run or explain validation checks.
-7. Summarize the result clearly.
+6. Add docstrings for reusable functions.
+7. Add useful line comments where logic may confuse a beginner.
+8. Run or explain validation checks.
+9. Summarize the result clearly.
 
 ---
 
@@ -449,16 +695,18 @@ For each task:
 
 Do not:
 
-* Rewrite the whole project unnecessarily.
-* Add advanced tools before the basics are complete.
-* Use the test set for threshold tuning.
-* Retrain the model inside inference.
-* Hardcode feature columns manually if an artifact exists.
-* Hardcode thresholds in multiple files.
-* Hide important learning logic in complex helper files.
-* Add UI work unless explicitly requested.
-* Add CrewAI, RAG, n8n, or LangChain unless asked.
-* Change project structure without permission.
+- Rewrite the whole project unnecessarily.
+- Add advanced tools before the basics are complete.
+- Use the test set for threshold tuning.
+- Retrain the model inside inference.
+- Hardcode feature columns manually if an artifact exists.
+- Hardcode thresholds in multiple files.
+- Hide important learning logic in complex helper files.
+- Add UI work unless explicitly requested.
+- Add CrewAI, RAG, n8n, or LangChain unless asked.
+- Change project structure without permission.
+- Remove existing working behavior while fixing a small issue.
+- Add comments that only repeat what the code already says.
 
 ---
 
@@ -486,8 +734,3 @@ Next step:
 ```
 
 Keep the response clear and direct.
-
-```
-
-This version is suitable for Codex because it tells Codex **how to behave**, **what not to break**, and **how to preserve your learning flow** while building the ML/NLP project step by step.
-```
